@@ -12,7 +12,7 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Çevresel değişkenler (eğer repo’da tutmayacaksan)
+# Çevresel değişkenler (eğer repo'da tutmayacaksan)
 .env
 .env.*
 !.env.example
@@ -168,3 +168,24 @@ fastlane/readme.md
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# ---- EAS Build ----
+.easignore
+eas.json.bak
+
+# ---- Metro / Bundler ----
+metro.config.js.map
+metro.config.js.bak
+
+# ---- Temporary Files ----
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ---- OS Generated ----
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db

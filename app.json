@@ -1,12 +1,24 @@
 {
   "expo": {
-    "name": "DEHBTespit",
+    "name": "DEHB Detection",
     "slug": "DEHBTespit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
+    "build": {
+      "preview": {
+        "android": {
+          "buildType": "apk"
+        }
+      },
+      "production": {
+        "android": {
+          "buildType": "app-bundle"
+        }
+      }
+    },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -14,17 +26,26 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.DEHBTespit"
+      "bundleIdentifier": "com.dehb.detection"
     },
     "android": {
+      "package": "com.dehb.detection",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "af10a872-e63c-47ed-ade1-a976a36fdb0e"
+      }
+    },
+    "plugins": [
+      "expo-screen-orientation"
+    ]
   }
 }
