@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Card, Button, Icon, MD3Colors} from 'react-native-paper';
 import { theme, getTextStyle, getHeadingStyle } from '../utils/fonts';
+import { testTypes } from '../data/testTypes';
 
 type DisclaimerScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Disclaimer'>;
 type DisclaimerScreenRouteProp = RouteProp<RootStackParamList, 'Disclaimer'>;
@@ -19,15 +20,18 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
   const { userSelection } = route.params;
   const [accepted, setAccepted] = useState(false);
 
-  const toggleAcceptance = () => {
+  const toggleAcceptance = useCallback(() => {
     setAccepted(!accepted);
-  };
+  }, [accepted]);
 
-  const handleAccept = () => {
-    if (accepted) {
-      navigation.navigate('Test', { userSelection, testType: userSelection.testType });
+  const handleAccept = useCallback(() => {
+    if (accepted && userSelection.testType) {
+      const selectedTest = testTypes.find(t => t.id === userSelection.testType);
+      if (selectedTest) {
+        navigation.navigate('Test', { userSelection, testType: selectedTest });
+      }
     }
-  };
+  }, [accepted, userSelection, navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background.secondary }}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
@@ -13,9 +13,9 @@ interface Props {
 }
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const handleStartTest = () => {
+  const handleStartTest = useCallback(() => {
     navigation.navigate('TestSelection');
-  };
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background.secondary }}>

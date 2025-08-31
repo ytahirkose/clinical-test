@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, Text, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -6,7 +6,7 @@ import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Card, Button, ProgressBar, Checkbox} from 'react-native-paper';
 import { testTypes } from '../data/testTypes';
-import { Answer } from '../types';
+import { Answer, TestType } from '../types';
 import { calculateScore } from '../utils/scoreCalculator';
 
 type TestScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Test'>;
@@ -18,18 +18,51 @@ interface Props {
 }
 
 const TestScreen: React.FC<Props> = ({ navigation, route }) => {
-  const { testType } = route.params;
+  const { testType, userSelection } = route.params;
 
-  const selectedTest = testTypes.find(t => t.id === testType);
-  const questions = selectedTest?.questions || [];
-  const answerOptions = selectedTest?.answerOptions || [];
+  const selectedTest = useMemo(() => testTypes.find(t => t.id === testType.id), [testType]);
+  const questions = useMemo(() => selectedTest?.questions || [], [selectedTest]);
+  const answerOptions = useMemo(() => selectedTest?.answerOptions || [], [selectedTest]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [progress, setProgress] = useState(0);
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const totalQuestions = questions.length;
+  const currentQuestion = useMemo(() => questions[currentQuestionIndex], [questions, currentQuestionIndex]);
+  const totalQuestions = useMemo(() => questions.length, [questions]);
+
+  const completeTest = useCallback(() => {
+    if (!selectedTest) {
+      Alert.alert('Hata', 'Test tipi bulunamadı.');
+      return;
+    }
+
+    const missingAnswers = questions
+      .filter((_, index) => !answers.find(a => a.questionId === index + 1))
+      .map((_, index) => ({
+        questionId: index + 1,
+        value: 0,
+      }));
+
+    if (answers.length < questions.length) {
+      const allAnswers = [...answers, ...missingAnswers];
+      const result = calculateScore(allAnswers, selectedTest);
+      navigation.navigate('Result', {
+        score: result.score,
+        answers: allAnswers.map(a => a.value),
+        testType: selectedTest,
+        userSelection: userSelection
+      });
+    } else {
+      const result = calculateScore(answers, selectedTest);
+      navigation.navigate('Result', {
+        score: result.score,
+        answers: answers.map(a => a.value),
+        testType: selectedTest,
+        userSelection: userSelection
+      });
+    }
+  }, [selectedTest, questions, answers, navigation, userSelection]);
 
   const handleAnswer = useCallback((value: number) => {
     const newAnswer: Answer = {
@@ -52,49 +85,16 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
     } else {
       completeTest();
     }
-  }, [currentQuestionIndex, answers, totalQuestions]);
+  }, [currentQuestion, answers, currentQuestionIndex, totalQuestions, completeTest]);
 
-  const completeTest = () => {
-    if (!selectedTest) {
-      Alert.alert('Hata', 'Test tipi bulunamadı.');
-      return;
-    }
-
-    const missingAnswers = questions
-      .filter((_, index) => !answers.find(a => a.questionId === index + 1))
-      .map((_, index) => ({
-        questionId: index + 1,
-        value: 0,
-      }));
-
-    if (answers.length < questions.length) {
-      const allAnswers = [...answers, ...missingAnswers];
-      const result = calculateScore(allAnswers, selectedTest);
-      navigation.navigate('Result', {
-        score: result.score,
-        answers: allAnswers.map(a => a.value),
-        testType: selectedTest,
-        userSelection: route.params.userSelection
-      });
-    } else {
-      const result = calculateScore(answers, selectedTest);
-      navigation.navigate('Result', {
-        score: result.score,
-        answers: answers.map(a => a.value),
-        testType: selectedTest,
-        userSelection: route.params.userSelection
-      });
-    }
-  };
-
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
       setProgress((currentQuestionIndex - 1) / totalQuestions);
     }
-  };
+  }, [currentQuestionIndex, totalQuestions]);
 
-  const handleSkip = () => {
+  const handleSkip = useCallback(() => {
     Alert.alert(
       'Soru Atlanıyor',
       'Bu soruyu atlamak istediğinizden emin misiniz? Atlanan sorular 0 puan olarak değerlendirilir.',
@@ -109,7 +109,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
         },
       ]
     );
-  };
+  }, [handleAnswer]);
 
   const getProgressBar = () => {
     const progressPercent = (progress * 100);
