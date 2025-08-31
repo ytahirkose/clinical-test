@@ -1,37 +1,170 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
+# ---- Genel / Node ----
 node_modules/
-
-# Expo
-.expo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun.lockb
+.cache/
+.tmp/
 dist/
-web-build/
-expo-env.d.ts
-
-# Native
-.kotlin/
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
+.tmp-eas/
 .DS_Store
-*.pem
+Thumbs.db
 
-# local env files
-.env*.local
+# Çevresel değişkenler (eğer repo’da tutmayacaksan)
+.env
+.env.*
+!.env.example
 
-# typescript
+# Jest / Coverage / Lint cache
+coverage/
+.nyc_output/
+.eslintcache
+.stylelintcache
+.prettiercache
+jest-html-reporters-*
+reports/
+.vitest/
+.vscode-test/
+
+# TypeScript
 *.tsbuildinfo
+
+# Babel / Metro
+.cache/
+**/.cache/
+**/metro-cache/
+babel.config.js.map
+
+# ---- React Native özgü ----
+# Watchman
+.watchman-cookie-*
+# Haste/Metro artıkları
+**/.metro-bundler-cache-*
+**/haste-map-*
+# Packager
+.expo/
+.expo-shared/
+web-build/
+
+# Expo EAS çıktılarını ignore etmek istersen
+*.tar.gz
+*.aab
+*.apk
+*.ipa
+
+# ---- iOS (Xcode / CocoaPods) ----
+ios/build/
+ios/DerivedData/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcshareddata/WorkspaceSettings.xcsettings
+ios/*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+*.xcuserstate
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+# CocoaPods (çoğu ekip Pods/ klasörünü commit etmez)
+ios/Pods/
+# Podfile.lock genelde COMMIT edilir. Eğer etmeyeceksen aç:
+# ios/Podfile.lock
+
+# iOS kimlik/sertifika/provizyon (asla repoya koyma)
+*.mobileprovision
+*.cer
+*.p12
+*.p8
+*.key
+
+# Firebase iOS (genelde gizli – commit ETMEMEYİ tercih ediyorsan)
+ios/GoogleService-Info.plist
+
+# ---- Android (Gradle) ----
+android/.gradle/
+android/build/
+android/app/build/
+android/app/.cxx/
+android/.cxx/
+android/local.properties
+android/captures/
+android/**/intermediates/
+android/**/generated/
+android/**/release/
+android/**/debug/
+android/**/outputs/
+*.apk
+*.aab
+
+# NDK / CMake
+android/**/.externalNativeBuild/
+android/**/externalNativeBuild/
+
+# Keystore / imzalama (gizli)
+*.keystore
+*.jks
+*.jceks
+*.keystore.properties
+android/keystores/
+android/app/*.keystore
+android/app/*.jks
+
+# Firebase Android (commit etmeyeceksen)
+android/app/google-services.json
+
+# ---- Test/QA (Detox, e2e vs.) ----
+e2e/artifacts/
+e2e/coverage/
+detox/ios-build/
+detox/android-build/
+*.trace
+*.log
+*.tmp
+
+# ---- Web (react-native-web/Expo) ----
+.next/
+out/
+build/
+public/build/
+
+# ---- IDE / Editör ----
+# VS Code (bazı dosyaları açık bırakıyoruz)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Xcode projede kullanıcıya özel ayarlar
+**/*xcuserdata*
+
+# macOS / Windows
+*.swp
+*.swo
+*.orig
+Icon?
+ehthumbs.db
+Desktop.ini
+
+# ---- Fastlane ----
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# ---- Yarn / npm çalışma dosyaları (opsiyonel) ----
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
