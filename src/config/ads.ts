@@ -1,4 +1,13 @@
 import { Platform } from 'react-native';
+import { 
+  BannerAdSize, 
+  TestIds, 
+  BannerAd, 
+  InterstitialAd, 
+  RewardedAd,
+  AdEventType,
+  RewardedAdEventType
+} from 'react-native-google-mobile-ads';
 
 // AdMob Configuration
 export const ADMOB_CONFIG = {
@@ -6,15 +15,15 @@ export const ADMOB_CONFIG = {
   test: {
     android: {
       appId: 'ca-app-pub-3940256099942544~3347511713',
-      banner: 'ca-app-pub-3940256099942544/6300978111',
-      interstitial: 'ca-app-pub-3940256099942544/1033173712',
-      rewarded: 'ca-app-pub-3940256099942544/5224354917',
+      banner: TestIds.BANNER,
+      interstitial: TestIds.INTERSTITIAL,
+      rewarded: TestIds.REWARDED,
     },
     ios: {
       appId: 'ca-app-pub-3940256099942544~1458002511',
-      banner: 'ca-app-pub-3940256099942544/2934735716',
-      interstitial: 'ca-app-pub-3940256099942544/4411468910',
-      rewarded: 'ca-app-pub-3940256099942544/1712485313',
+      banner: TestIds.BANNER,
+      interstitial: TestIds.INTERSTITIAL,
+      rewarded: TestIds.REWARDED,
     },
   },
   // Production IDs (Replace with your real AdMob IDs)
@@ -53,13 +62,13 @@ export const getPlatformAdConfig = () => {
 
 // Banner sizes
 export const BANNER_SIZES = {
-  BANNER: 'banner' as const,
-  LARGE_BANNER: 'largeBanner' as const,
-  MEDIUM_RECTANGLE: 'mediumRectangle' as const,
-  FULL_BANNER: 'fullBanner' as const,
-  LEADERBOARD: 'leaderboard' as const,
-  SMART_BANNER_PORTRAIT: 'smartBannerPortrait' as const,
-  SMART_BANNER_LANDSCAPE: 'smartBannerLandscape' as const,
+  BANNER: BannerAdSize.BANNER,
+  LARGE_BANNER: BannerAdSize.LARGE_BANNER,
+  MEDIUM_RECTANGLE: BannerAdSize.MEDIUM_RECTANGLE,
+  FULL_BANNER: BannerAdSize.FULL_BANNER,
+  LEADERBOARD: BannerAdSize.LEADERBOARD,
+  ADAPTIVE_BANNER: BannerAdSize.ADAPTIVE_BANNER,
+  ANCHORED_ADAPTIVE_BANNER: BannerAdSize.ANCHORED_ADAPTIVE_BANNER,
 };
 
 // Content filtering keywords
@@ -83,3 +92,6 @@ export const AD_FREQUENCY = {
   MAX_ADS_PER_SESSION: 10,
   MAX_BANNERS_PER_SCREEN: 2,
 };
+
+// Export types for components
+export type { BannerAdSize, TestIds, BannerAd, InterstitialAd, RewardedAd, AdEventType, RewardedAdEventType };

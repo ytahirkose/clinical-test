@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -30,8 +30,9 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
       if (selectedTest) {
         navigation.navigate('Test', { userSelection, testType: selectedTest });
       } else {
-        // Fallback: navigate with testType string
-        navigation.navigate('Test', { userSelection, testType: selectedTest as any });
+        // Fallback: navigate to TestSelection if test type not found
+        Alert.alert('Hata', 'Test tipi bulunamadı. Lütfen tekrar seçiniz.');
+        navigation.navigate('TestSelection');
       }
     }
   }, [accepted, userSelection, navigation]);

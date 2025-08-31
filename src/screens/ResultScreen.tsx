@@ -21,10 +21,14 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
   const theme = useTheme();
   const { score, answers, testType, userSelection } = route.params;
 
-  const testAnswers: Answer[] = answers.map((value: number, index: number) => ({
-    questionId: index + 1, // Using sequential ID as fallback
-    value,
-  }));
+  const testAnswers: Answer[] = answers.map((value: number, index: number) => {
+    // Find the actual question ID from the test type
+    const question = testType.questions[index];
+    return {
+      questionId: question ? question.id : index + 1, // Use actual question ID or fallback
+      value,
+    };
+  });
 
   const result = calculateScore(testAnswers, testType);
   const categoryScores = getCategoryScores(testAnswers, testType);

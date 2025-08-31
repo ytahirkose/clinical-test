@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { AdMobBanner } from 'expo-ads-admob';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import { getPlatformAdConfig, BANNER_SIZES, CONTENT_FILTERING_KEYWORDS } from '../config/ads';
 
 interface AdBannerProps {
@@ -20,37 +20,41 @@ const AdBanner: React.FC<AdBannerProps> = ({
       styles.container, 
       position === 'top' ? styles.topPosition : styles.bottomPosition
     ]}>
-      <AdMobBanner
-        bannerSize={BANNER_SIZES[size]}
-        adUnitID={adUnitId}
-        servePersonalizedAds={false}
-        additionalRequestParams={{
-          // Content filtering
-          'kw': CONTENT_FILTERING_KEYWORDS.join(','),
-          'npa': '1', // Non-personalized ads
+      <BannerAd
+        unitId={adUnitId}
+        size={BANNER_SIZES[size]}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+          keywords: CONTENT_FILTERING_KEYWORDS,
         }}
-        onDidFailToReceiveAdWithError={(error: any) => {
-          // Ad failed to load - handle silently in production
-          if (__DEV__) {
-            console.warn('Ad failed to load:', error);
-          }
-        }}
-        onAdViewDidReceiveAd={() => {
-          // Ad loaded successfully - handle silently in production
+        onAdLoaded={() => {
           if (__DEV__) {
             console.info('Ad loaded successfully');
           }
         }}
-        onAdViewWillPresentScreen={() => {
-          // Ad opened - handle silently in production
+        onAdFailedToLoad={(error) => {
+          if (__DEV__) {
+            console.warn('Ad failed to load:', error);
+          }
+        }}
+        onAdOpened={() => {
           if (__DEV__) {
             console.info('Ad opened');
           }
         }}
-        onAdViewWillDismissScreen={() => {
-          // Ad closed - handle silently in production
+        onAdClosed={() => {
           if (__DEV__) {
             console.info('Ad closed');
+          }
+        }}
+        onAdClicked={() => {
+          if (__DEV__) {
+            console.info('Ad clicked');
+          }
+        }}
+        onAdImpression={() => {
+          if (__DEV__) {
+            console.info('Ad impression');
           }
         }}
       />

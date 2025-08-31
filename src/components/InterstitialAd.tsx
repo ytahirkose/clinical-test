@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AdMobInterstitial } from 'expo-ads-admob';
+import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
 import { getPlatformAdConfig, CONTENT_FILTERING_KEYWORDS } from '../config/ads';
 
 interface InterstitialAdProps {
@@ -14,79 +14,53 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   onAdFailedToLoad,
 }) => {
   const [loaded, setLoaded] = useState(false);
+  const [interstitial, setInterstitial] = useState<InterstitialAd | null>(null);
 
   useEffect(() => {
     const adConfig = getPlatformAdConfig();
     const adUnitId = adConfig.interstitial;
     
-    // AdMob Interstitial'ı ayarla
-    AdMobInterstitial.setAdUnitID(adUnitId);
+    const newInterstitial = InterstitialAd.createForAdRequest(adUnitId, {
+      requestNonPersonalizedAdsOnly: true,
+      keywords: CONTENT_FILTERING_KEYWORDS,
+    });
 
-    // Event listener'ları ekle
-    const handleLoad = () => {
+    const unsubscribeLoaded = newInterstitial.addAdEventListener(AdEventType.LOADED, () => {
       setLoaded(true);
       onAdLoaded?.();
-    };
+    });
 
-    const handleFail = (error: any) => {
-      setLoaded(false);
-      onAdFailedToLoad?.(error);
-    };
-
-    const handleClose = () => {
+    const unsubscribeClosed = newInterstitial.addAdEventListener(AdEventType.CLOSED, () => {
       setLoaded(false);
       onAdClosed?.();
       // Reklam kapandıktan sonra yeni reklam yükle
-      AdMobInterstitial.requestAdAsync({ 
-        servePersonalizedAds: false,
-        additionalRequestParams: {
-          'kw': CONTENT_FILTERING_KEYWORDS.join(','),
-          'npa': '1', // Non-personalized ads
-        }
-      });
-    };
-
-    AdMobInterstitial.addEventListener('interstitialDidLoad', handleLoad);
-    AdMobInterstitial.addEventListener('interstitialDidFailToLoad', handleFail);
-    AdMobInterstitial.addEventListener('interstitialDidClose', handleClose);
-
-    // İlk reklamı yükle
-    AdMobInterstitial.requestAdAsync({ 
-      servePersonalizedAds: false,
-      additionalRequestParams: {
-        'kw': CONTENT_FILTERING_KEYWORDS.join(','),
-        'npa': '1', // Non-personalized ads
-      }
+      newInterstitial.load();
     });
 
+    const unsubscribeFailed = newInterstitial.addAdEventListener(AdEventType.ERROR, (error: any) => {
+      setLoaded(false);
+      onAdFailedToLoad?.(error);
+    });
+
+    setInterstitial(newInterstitial);
+
+    // İlk reklamı yükle
+    newInterstitial.load();
+
     return () => {
-      AdMobInterstitial.removeEventListener('interstitialDidLoad', handleLoad);
-      AdMobInterstitial.removeEventListener('interstitialDidFailToLoad', handleFail);
-      AdMobInterstitial.removeEventListener('interstitialDidClose', handleClose);
+      unsubscribeLoaded();
+      unsubscribeClosed();
+      unsubscribeFailed();
     };
   }, [onAdClosed, onAdLoaded, onAdFailedToLoad]);
 
-  const showAd = async () => {
-    if (loaded) {
-      try {
-        await AdMobInterstitial.showAdAsync();
-        return true;
-      } catch (error) {
-        // Failed to show ad - handle silently in production
-        if (__DEV__) {
-          console.warn('Failed to show ad:', error);
-        }
-        return false;
-      }
+  const showAd = () => {
+    if (interstitial && loaded) {
+      interstitial.show();
+      return true;
     } else {
       // Reklam yüklenmemişse yeni reklam yükle
-      AdMobInterstitial.requestAdAsync({ 
-        servePersonalizedAds: false,
-        additionalRequestParams: {
-          'kw': CONTENT_FILTERING_KEYWORDS.join(','),
-          'npa': '1', // Non-personalized ads
-        }
-      });
+      interstitial?.load();
       return false;
     }
   };
