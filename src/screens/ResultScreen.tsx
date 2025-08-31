@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, Button, useTheme } from 'react-native-paper';
-import { calculateScore, getCategoryScores } from '../utils/scoreCalculator';
-import { Answer } from '../types';
+import { calculateScore, getCategoryScores, checkDSM5Criteria } from '../utils/scoreCalculator';
+import { Answer, TestType, UserSelection } from '../types';
+import AdBanner from '../components/AdBanner';
 
 type ResultScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Result'>;
 type ResultScreenRouteProp = RouteProp<RootStackParamList, 'Result'>;
@@ -20,127 +21,123 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
   const theme = useTheme();
   const { score, answers, testType, userSelection } = route.params;
 
-  const answerObjects: Answer[] = answers.map((value, index) => ({
-    questionId: index + 1,
-    value
+  const testAnswers: Answer[] = answers.map((value: number, index: number) => ({
+    questionId: index + 1, // Using sequential ID as fallback
+    value,
   }));
 
-  const categoryScores = getCategoryScores(answerObjects, testType);
+  const result = calculateScore(testAnswers, testType);
+  const categoryScores = getCategoryScores(testAnswers, testType);
+  const dsm5Criteria = checkDSM5Criteria(testAnswers, testType);
 
-  const getRiskLevel = (score: number) => {
-    if (score <= 16) return { level: 'low', label: 'Düşük Risk', color: theme.colors.primary };
-    if (score <= 23) return { level: 'medium', label: 'Orta Risk', color: theme.colors.tertiary };
-    return { level: 'high', label: 'Yüksek Risk', color: theme.colors.error };
-  };
-
-  const getRiskColor = (level: string) => {
-    switch (level) {
-      case 'low': return theme.colors.primary;
-      case 'medium': return theme.colors.tertiary;
-      case 'high': return theme.colors.error;
-      default: return theme.colors.primary;
+  const getRiskLevel = (riskLevel: string) => {
+    switch (riskLevel) {
+      case 'low':
+        return { color: theme.colors.primary, text: 'Düşük Risk' };
+      case 'medium':
+        return { color: theme.colors.tertiary, text: 'Orta Risk' };
+      case 'high':
+        return { color: theme.colors.error, text: 'Yüksek Risk' };
+      default:
+        return { color: theme.colors.outline, text: 'Belirsiz' };
     }
   };
 
-  const getProgressBar = (percentage: number, color: string) => (
-    <View style={{ height: 8, backgroundColor: theme.colors.outline, borderRadius: 4, overflow: 'hidden' }}>
-      <View style={{
-        height: '100%',
-        backgroundColor: color,
-        borderRadius: 4,
-        width: `${percentage}%`
-      }} />
-    </View>
-  );
-
-  const riskInfo = getRiskLevel(score);
+  const riskLevelInfo = getRiskLevel(result.riskLevel);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 5, color: theme.colors.primary }}>
-            {score}
+          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', color: theme.colors.primary }}>
+            Test Sonucu
           </Text>
-          <Text style={{ fontSize: 14, opacity: 0.9, color: theme.colors.onSurface }}>
-            Toplam Puan
+          <Text style={{ fontSize: 16, textAlign: 'center', color: theme.colors.onSurface }}>
+            {testType.name} sonucunuz
           </Text>
         </View>
 
-        <Card style={{ marginBottom: 16 }}>
+        <AdBanner position="top" />
+
+        <Card style={{ marginBottom: 20, backgroundColor: theme.colors.surface }}>
           <Card.Content>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8, color: theme.colors.onSurface }}>
-              Risk Seviyesi
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
+              Genel Sonuç
             </Text>
-            <Text style={{ fontSize: 24, fontWeight: 'bold', color: riskInfo.color, marginBottom: 16 }}>
-              {riskInfo.label}
-            </Text>
-            <View style={{ height: 8, backgroundColor: theme.colors.outline, borderRadius: 4, overflow: 'hidden' }}>
-              <View style={{
-                height: '100%',
-                backgroundColor: riskInfo.color,
-                borderRadius: 4,
-                width: `${Math.min((score / 72) * 100, 100)}%`
-              }} />
+            <View style={{ alignItems: 'center', marginBottom: 16 }}>
+              <Text style={{ fontSize: 48, fontWeight: 'bold', color: riskLevelInfo.color }}>
+                {result.score}
+              </Text>
+              <Text style={{ fontSize: 16, color: theme.colors.onSurfaceVariant }}>
+                / {testType.maxScore} puan
+              </Text>
             </View>
+            <View style={{ alignItems: 'center', marginBottom: 16 }}>
+              <Text style={{ fontSize: 18, fontWeight: '600', color: riskLevelInfo.color }}>
+                {riskLevelInfo.text}
+              </Text>
+              <Text style={{ fontSize: 14, color: theme.colors.onSurfaceVariant, textAlign: 'center' }}>
+                {result.riskBand}
+              </Text>
+            </View>
+            <Text style={{ fontSize: 14, lineHeight: 20, color: theme.colors.onSurface, textAlign: 'center' }}>
+              {result.recommendation}
+            </Text>
           </Card.Content>
         </Card>
 
-        <Card style={{ marginBottom: 16 }}>
+        <Card style={{ marginBottom: 20, backgroundColor: theme.colors.surface }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
-              Kategori Bazında Değerlendirme
+              Kategori Puanları
             </Text>
-            
-            <View style={{ marginBottom: 16 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8, color: theme.colors.onSurface }}>
-                Dikkat Eksikliği
-              </Text>
-              {getProgressBar(Math.round((categoryScores.attention / 27) * 100), theme.colors.primary)}
-              <Text style={{ fontSize: 14, marginTop: 4, color: theme.colors.onSurfaceVariant }}>
-                {categoryScores.attention} / 27 puan
+            <View style={{ marginBottom: 12 }}>
+              <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
+                Dikkat: {categoryScores.attention} puan
               </Text>
             </View>
-
-            <View style={{ marginBottom: 16 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8, color: theme.colors.onSurface }}>
-                Hiperaktivite
-              </Text>
-              {getProgressBar(Math.round((categoryScores.hyperactivity / 18) * 100), theme.colors.tertiary)}
-              <Text style={{ fontSize: 14, marginTop: 4, color: theme.colors.onSurfaceVariant }}>
-                {categoryScores.hyperactivity} / 18 puan
+            <View style={{ marginBottom: 12 }}>
+              <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
+                Hiperaktivite: {categoryScores.hyperactivity} puan
               </Text>
             </View>
-
-            <View style={{ marginBottom: 16 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8, color: theme.colors.onSurface }}>
-                Dürtüsellik
-              </Text>
-              {getProgressBar(Math.round((categoryScores.impulsivity / 18) * 100), theme.colors.primary)}
-              <Text style={{ fontSize: 14, marginTop: 4, color: theme.colors.onSurfaceVariant }}>
-                {categoryScores.impulsivity} / 18 puan
+            <View style={{ marginBottom: 12 }}>
+              <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
+                Dürtüsellik: {categoryScores.impulsivity} puan
               </Text>
             </View>
           </Card.Content>
         </Card>
 
-        <Card style={{ backgroundColor: theme.colors.tertiaryContainer, borderColor: theme.colors.tertiary }}>
-          <Card.Content>
-            <Text style={{ fontSize: 14, textAlign: 'center', fontWeight: '500', color: theme.colors.onTertiaryContainer }}>
-              ⚠️ Bu sonuçlar sadece bilgilendirme amaçlıdır. Kesin tanı için uzman görüşü gerekir.
-            </Text>
-          </Card.Content>
-        </Card>
+        {dsm5Criteria && (
+          <Card style={{ marginBottom: 20, backgroundColor: theme.colors.tertiaryContainer }}>
+            <Card.Content>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
+                DSM-5 Kriterleri
+              </Text>
+              <View style={{ marginBottom: 12 }}>
+                <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
+                  Dikkat Kriteri: {dsm5Criteria.attentionMet ? '✅ Karşılandı' : '❌ Karşılanmadı'}
+                </Text>
+                <Text style={{ fontSize: 14, color: theme.colors.onSurfaceVariant }}>
+                  Puan: {dsm5Criteria.attentionScore} / {dsm5Criteria.attentionThreshold}
+                </Text>
+              </View>
+              <View style={{ marginBottom: 12 }}>
+                <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
+                  Hiperaktivite/Dürtüsellik: {dsm5Criteria.hyperactivityMet ? '✅ Karşılandı' : '❌ Karşılanmadı'}
+                </Text>
+                <Text style={{ fontSize: 14, color: theme.colors.onSurfaceVariant }}>
+                  Puan: {dsm5Criteria.hyperactivityScore} / {dsm5Criteria.hyperactivityThreshold}
+                </Text>
+              </View>
+            </Card.Content>
+          </Card>
+        )}
 
-        <View style={{ marginTop: 24 }}>
-          <Button
-            mode="contained"
-            onPress={() => navigation.navigate('Home')}
-            style={{ marginBottom: 12 }}
-          >
-            Ana Sayfaya Dön
-          </Button>
-          
+        <AdBanner position="bottom" />
+
+        <View style={{ marginTop: 20 }}>
           <Button
             mode="outlined"
             onPress={() => navigation.navigate('TestSelection')}

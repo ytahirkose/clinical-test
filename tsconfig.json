@@ -21,13 +21,15 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "typeRoots": ["./src/types", "./node_modules/@types"]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "**/*.jsx"
+    "**/*.jsx",
+    "src/types/*.d.ts"
   ],
   "exclude": [
     "node_modules",

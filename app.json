@@ -26,18 +26,45 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dehb.detection"
+      "bundleIdentifier": "com.dehb.detection",
+      "icon": "./assets/icon.png",
+      "buildNumber": "1",
+      "requireFullScreen": false,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Bu uygulama kamera erişimi gerektirmez",
+        "NSMicrophoneUsageDescription": "Bu uygulama mikrofon erişimi gerektirmez",
+        "NSLocationWhenInUseUsageDescription": "Bu uygulama konum erişimi gerektirmez",
+        "NSPhotoLibraryUsageDescription": "Bu uygulama fotoğraf galerisi erişimi gerektirmez",
+        "NSContactsUsageDescription": "Bu uygulama kişi listesi erişimi gerektirmez",
+        "NSFaceIDUsageDescription": "Bu uygulama Face ID erişimi gerektirmez",
+        "UIBackgroundModes": [],
+        "UIRequiresFullScreen": false,
+        "UIStatusBarStyle": "default"
+      },
+      "usesNonExemptEncryption": false,
+      "appStoreUrl": "https://apps.apple.com/app/dehb-detection/id1234567890"
     },
     "android": {
       "package": "com.dehb.detection",
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": []
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "allowBackup": false,
+      "minSdkVersion": 21,
+      "targetSdkVersion": 33,
+      "compileSdkVersion": 33,
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.dehb.detection"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
@@ -45,7 +72,15 @@
       }
     },
     "plugins": [
-      "expo-screen-orientation"
+      "expo-screen-orientation",
+      [
+        "expo-ads-admob",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511",
+          "userTrackingPermission": "Bu uygulama, size daha iyi reklam deneyimi sunmak için reklam kimliği kullanır. Reklamlar internet üzerinden yüklenir."
+        }
+      ]
     ]
   }
 }
