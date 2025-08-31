@@ -131,6 +131,7 @@ public/build/
 
 # ---- IDE / Editör ----
 # VS Code (bazı dosyaları açık bırakıyoruz)
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
