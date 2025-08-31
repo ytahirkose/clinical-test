@@ -16,22 +16,14 @@ export const calculateScore = (answers: Answer[], testType: TestType): TestResul
   let screenerResult: boolean | undefined;
 
   if (testType.id.startsWith('asrs')) {
-    if (totalScore <= 9) {
+    if (totalScore < 17) {
       riskLevel = 'low';
-      riskBand = '0-9 Düşük Negatif';
-      recommendation = "ASRS v1.1 sonucu düşük negatif. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
-    } else if (totalScore <= 13) {
-      riskLevel = 'low';
-      riskBand = '10-13 Yüksek Negatif';
-      recommendation = "ASRS v1.1 sonucu yüksek negatif. DEHB belirtileri düşük-orta seviyede görünüyor. Bir uzmanla görüşmeniz faydalı olabilir.";
-    } else if (totalScore <= 17) {
-      riskLevel = 'medium';
-      riskBand = '14-17 Düşük Pozitif';
-      recommendation = "ASRS v1.1 sonucu düşük pozitif. DEHB belirtileri orta seviyede görünüyor. Bir psikiyatrist veya nörolog ile görüşmeniz önerilir.";
+      riskBand = 'Negatif (0-16)';
+      recommendation = "ASRS v1.1 sonucu negatif. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
     } else {
       riskLevel = 'high';
-      riskBand = '18-24 Yüksek Pozitif';
-      recommendation = "ASRS v1.1 sonucu yüksek pozitif. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir psikiyatrist veya nörolog ile görüşmeniz gerekli.";
+      riskBand = 'Pozitif (17+)';
+      recommendation = "ASRS v1.1 sonucu pozitif. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir psikiyatrist veya nörolog ile görüşmeniz gerekli.";
     }
 
     if (testType.id === 'asrs-screener') {
@@ -43,17 +35,13 @@ export const calculateScore = (answers: Answer[], testType: TestType): TestResul
       }
     }
   } else {
-    if (totalScore <= 5) {
+    if (totalScore < 6) {
       riskLevel = 'low';
-      riskBand = '0-5 Düşük Risk';
+      riskBand = 'Düşük Risk (0-5)';
       recommendation = "Vanderbilt sonucu düşük risk. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
-    } else if (totalScore <= 9) {
-      riskLevel = 'medium';
-      riskBand = '6-9 Orta Risk';
-      recommendation = "Vanderbilt sonucu orta risk. DEHB belirtileri orta seviyede görünüyor. Bir çocuk gelişim uzmanı veya psikiyatrist ile görüşmeniz önerilir.";
     } else {
       riskLevel = 'high';
-      riskBand = '10+ Yüksek Risk';
+      riskBand = 'Yüksek Risk (6+)';
       recommendation = "Vanderbilt sonucu yüksek risk. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir çocuk gelişim uzmanı veya psikiyatrist ile görüşmeniz gerekli.";
     }
   }
@@ -87,7 +75,7 @@ export const getCategoryScores = (answers: Answer[], testType: TestType) => {
 };
 
 export const checkDSM5Criteria = (answers: Answer[], testType: TestType) => {
-  if (!testType.id.startsWith('asrs')) return null;
+  if (!testType.id.startsWith('asrs') && !testType.id.startsWith('vanderbilt')) return null;
 
   const attentionQuestions = testType.questions.filter(q => q.category === 'attention');
   const hyperactivityQuestions = testType.questions.filter(q => q.category === 'hyperactivity' || q.category === 'impulsivity');
@@ -100,8 +88,22 @@ export const checkDSM5Criteria = (answers: Answer[], testType: TestType) => {
     .filter(a => hyperactivityQuestions.find(q => q.id === a.questionId))
     .reduce((sum, a) => sum + a.value, 0);
 
-  const attentionThreshold = 12;
-  const hyperactivityThreshold = 12;
+  // DSM-5 thresholds vary by test type
+  let attentionThreshold: number;
+  let hyperactivityThreshold: number;
+
+  if (testType.id.startsWith('asrs')) {
+    // ASRS: 6+ symptoms in each domain (0-4 scale, threshold 2+ = moderate)
+    attentionThreshold = 12; // 6 questions × 2 points
+    hyperactivityThreshold = 12; // 6 questions × 2 points
+  } else if (testType.id.startsWith('vanderbilt')) {
+    // Vanderbilt: 6+ symptoms in each domain (0-3 scale, threshold 2+ = often)
+    attentionThreshold = 12; // 6 questions × 2 points
+    hyperactivityThreshold = 12; // 6 questions × 2 points
+  } else {
+    attentionThreshold = 12;
+    hyperactivityThreshold = 12;
+  }
 
   return {
     attentionMet: attentionScore >= attentionThreshold,
@@ -109,6 +111,7 @@ export const checkDSM5Criteria = (answers: Answer[], testType: TestType) => {
     attentionScore,
     hyperactivityScore,
     attentionThreshold,
-    hyperactivityThreshold
+    hyperactivityThreshold,
+    testType: testType.id
   };
 };

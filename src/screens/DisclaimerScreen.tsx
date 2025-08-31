@@ -29,6 +29,9 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
       const selectedTest = testTypes.find(t => t.id === userSelection.testType);
       if (selectedTest) {
         navigation.navigate('Test', { userSelection, testType: selectedTest });
+      } else {
+        // Fallback: navigate with testType string
+        navigation.navigate('Test', { userSelection, testType: selectedTest as any });
       }
     }
   }, [accepted, userSelection, navigation]);

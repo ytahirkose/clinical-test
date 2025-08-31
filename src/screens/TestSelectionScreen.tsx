@@ -26,17 +26,15 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
       const ageNum = parseInt(age);
       if (ageNum >= 18) {
         setSelectedTestType('asrs');
-      } else if (ageNum >= 6) {
-        setSelectedTestType('vanderbilt-parent');
       } else {
-        setSelectedTestType('');
+        setSelectedTestType('vanderbilt-parent');
       }
     }
   }, [age]);
 
   const handleContinue = useCallback(() => {
     if (!age || !selectedTestType) {
-      Alert.alert('Hata', 'Lütfen yaş giriniz ve test tipini seçiniz.');
+      Alert.alert('Hata', 'Lütfen yaş giriniz.');
       return;
     }
 
@@ -96,21 +94,21 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
           </Card.Content>
         </Card>
 
-        <Card style={{ marginBottom: 24 }}>
+        {selectedTestType ? <Card style={{ marginBottom: 24 }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
               Test Tipi
             </Text>
             <Text style={{ fontSize: 14, color: theme.colors.onSurface }}>
-              {selectedTestType ? getTestTypeDescription(selectedTestType) : 'Yaş giriniz...'}
+              {getTestTypeDescription(selectedTestType)}
             </Text>
           </Card.Content>
-        </Card>
+        </Card> : null}
 
         <Button
           mode="contained"
           onPress={handleContinue}
-          disabled={!age || !selectedTestType}
+          disabled={!age}
           style={{ marginBottom: 16 }}
         >
           Devam Et

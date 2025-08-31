@@ -17,7 +17,7 @@ export const testTypes: TestType[] = [
     questions: asrsQuestions,
     answerOptions: asrsAnswerOptions,
     maxScore: 72,
-    cutoffScore: 14,
+    cutoffScore: 17,
     source: 'Harvard Medical School - WHO ASRS v1.1'
   },
   {
@@ -28,7 +28,7 @@ export const testTypes: TestType[] = [
     questions: asrsScreenerQuestions,
     answerOptions: asrsAnswerOptions,
     maxScore: 24,
-    cutoffScore: 14,
+    cutoffScore: 4,
     source: 'Harvard Medical School - ASRS v1.1 Screener'
   },
   {
@@ -38,7 +38,7 @@ export const testTypes: TestType[] = [
     ageRange: '4-17 yaş',
     questions: vanderbiltParentQuestions,
     answerOptions: vanderbiltAnswerOptions,
-    maxScore: 60,
+    maxScore: 54,
     cutoffScore: 6,
     source: 'NICHQ Vanderbilt - Ebeveyn Formu'
   },
@@ -49,21 +49,18 @@ export const testTypes: TestType[] = [
     ageRange: '4-17 yaş',
     questions: vanderbiltTeacherQuestions,
     answerOptions: vanderbiltAnswerOptions,
-    maxScore: 60,
+    maxScore: 54,
     cutoffScore: 6,
     source: 'NICHQ Vanderbilt - Öğretmen Formu'
   }
 ];
 
 export const asrsRiskBands = {
-  '0-9': 'Düşük Negatif',
-  '10-13': 'Yüksek Negatif', 
-  '14-17': 'Düşük Pozitif',
-  '18-24': 'Yüksek Pozitif'
+  '0-16': 'Negatif',
+  '17+': 'Pozitif'
 };
 
 export const vanderbiltRiskBands = {
   '0-5': 'Düşük Risk',
-  '6-9': 'Orta Risk',
-  '10+': 'Yüksek Risk'
+  '6+': 'Yüksek Risk'
 };

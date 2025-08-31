@@ -21,7 +21,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
   const theme = useTheme();
   const { testType, userSelection } = route.params;
 
-  const selectedTest = useMemo(() => testTypes.find(t => t.id === testType.id), [testType]);
+  const selectedTest = useMemo(() => testType, [testType]);
   const questions = useMemo(() => selectedTest?.questions || [], [selectedTest]);
   const answerOptions = useMemo(() => selectedTest?.answerOptions || [], [selectedTest]);
 
@@ -39,9 +39,9 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
     }
 
     const missingAnswers = questions
-      .filter((_, index) => !answers.find(a => a.questionId === index + 1))
-      .map((_, index) => ({
-        questionId: index + 1,
+      .filter((question) => !answers.find(a => a.questionId === question.id))
+      .map((question) => ({
+        questionId: question.id,
         value: 0,
       }));
 

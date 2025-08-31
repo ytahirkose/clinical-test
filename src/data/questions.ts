@@ -10,7 +10,7 @@ export const asrsQuestions: Question[] = [
   },
   {
     id: 2,
-    text: "Detaylara dikkat etmekte veya işlerde dikkatsiz hatalar yapmakta zorluk yaşarım",
+    text: "Detaylara dikkat etmekte zorluk yaşarım",
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
@@ -122,7 +122,7 @@ export const asrsQuestions: Question[] = [
   },
   {
     id: 18,
-    text: "Tehlikeli aktivitelere katılmakta zorluk yaşarım",
+    text: "Sonuçlarını düşünmeden tehlikeli aktivitelere katılırım",
     category: "impulsivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
@@ -289,7 +289,7 @@ export const vanderbiltTeacherQuestions: Question[] = [
   },
   {
     id: 3,
-    text: "Konuşurken dinleyiciyi dinlemekte zorluk yaşar",
+    text: "Başkaları konuşurken onları dinlemekte zorluk yaşar",
     category: "attention",
     weight: 1,
     source: "NICHQ Vanderbilt - Öğretmen Formu"
@@ -401,7 +401,7 @@ export const vanderbiltTeacherQuestions: Question[] = [
   },
   {
     id: 19,
-    text: "Tehlikeli aktivitelere katılmakta zorluk yaşar",
+    text: "Tehlikeli aktivitelere katılmaya eğilimlidir",
     category: "impulsivity",
     weight: 1,
     source: "NICHQ Vanderbilt - Öğretmen Formu"
@@ -425,14 +425,14 @@ export const asrsScreenerQuestions: Question[] = [
   },
   {
     id: 2,
-    text: "Detaylara dikkat etmekte veya işlerde dikkatsiz hatalar yapmakta zorluk yaşarım",
+    text: "Detaylara dikkat etmekte zorluk yaşarım",
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 Screener - Harvard Medical School"
   },
   {
     id: 3,
-    text: "Konuşurken dinleyiciyi dinlemekte zorluk yaşarım",
+    text: "Konuşurken başkalarını dinlemekte zorluk yaşarım",
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 Screener - Harvard Medical School"
@@ -453,7 +453,7 @@ export const asrsScreenerQuestions: Question[] = [
   },
   {
     id: 6,
-    text: "Sıramı beklemekte zorluk yaşarım",
+    text: "Sonuçlarını düşünmeden tehlikeli aktivitelere katılırım",
     category: "impulsivity",
     weight: 1,
     source: "ASRS v1.1 Screener - Harvard Medical School"
@@ -462,23 +462,23 @@ export const asrsScreenerQuestions: Question[] = [
 
 export const answerOptions = [
   { value: 0, label: "Hiç" },
-  { value: 1, label: "Biraz" },
+  { value: 1, label: "Bazen" },
   { value: 2, label: "Orta" },
-  { value: 3, label: "Çok" },
-  { value: 4, label: "Çok fazla" }
+  { value: 3, label: "Sık" },
+  { value: 4, label: "Çok Sık" }
 ];
 
 export const asrsAnswerOptions = [
   { value: 0, label: "Hiç" },
-  { value: 1, label: "Biraz" },
+  { value: 1, label: "Bazen" },
   { value: 2, label: "Orta" },
-  { value: 3, label: "Çok" },
-  { value: 4, label: "Çok Çok" }
+  { value: 3, label: "Sık" },
+  { value: 4, label: "Çok Sık" }
 ];
 
 export const vanderbiltAnswerOptions = [
   { value: 0, label: "Hiç" },
-  { value: 1, label: "Biraz" },
+  { value: 1, label: "Bazen" },
   { value: 2, label: "Sık" },
   { value: 3, label: "Çok Sık" }
 ];
