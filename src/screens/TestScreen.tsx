@@ -5,9 +5,10 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Card, Button, ProgressBar, Checkbox, useTheme} from 'react-native-paper';
-import { testTypes } from '../data/testTypes';
+import { createTestTypes } from '../data/testTypes';
 import { Answer, TestType } from '../types';
 import { calculateScore } from '../utils/scoreCalculator';
+import { useTranslation } from 'react-i18next';
 
 type TestScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Test'>;
 type TestScreenRouteProp = RouteProp<RootStackParamList, 'Test'>;
@@ -19,11 +20,13 @@ interface Props {
 
 const TestScreen: React.FC<Props> = ({ navigation, route }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { testType, userSelection } = route.params;
 
   const selectedTest = useMemo(() => testType, [testType]);
   const questions = useMemo(() => selectedTest?.questions || [], [selectedTest]);
   const answerOptions = useMemo(() => selectedTest?.answerOptions || [], [selectedTest]);
+  const testTypes = useMemo(() => createTestTypes(t), [t]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -34,7 +37,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const completeTest = useCallback(() => {
     if (!selectedTest) {
-      Alert.alert('Hata', 'Test tipi bulunamadı.');
+      Alert.alert(t('common.error'), t('test.testTypeNotFound'));
       return;
     }
 
@@ -48,7 +51,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
 
     if (answers.length < questions.length) {
       const allAnswers = [...answers, ...missingAnswers];
-      const result = calculateScore(allAnswers, selectedTest);
+      const result = calculateScore(allAnswers, selectedTest, t);
       navigation.navigate('Result', {
         score: result.score,
         answers: allAnswers.map(a => a.value),
@@ -56,7 +59,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
         userSelection: userSelection
       });
     } else {
-      const result = calculateScore(answers, selectedTest);
+      const result = calculateScore(answers, selectedTest, t);
       navigation.navigate('Result', {
         score: result.score,
         answers: answers.map(a => a.value),
@@ -98,15 +101,15 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const handleSkip = useCallback(() => {
     Alert.alert(
-      'Soru Atlanıyor',
-      'Bu soruyu atlamak istediğinizden emin misiniz? Atlanan sorular 0 puan olarak değerlendirilir.',
+      t('test.skipQuestion'),
+      t('test.skipWarning'),
       [
         {
-          text: 'İptal',
+          text: t('test.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Atla',
+          text: t('test.skip'),
           onPress: () => handleAnswer(0),
         },
       ]
@@ -138,7 +141,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
       <View style={{ backgroundColor: theme.colors.surface, padding: 16, borderBottomWidth: 1, borderBottomColor: theme.colors.outline }}>
         <View style={{ alignItems: 'center', marginBottom: 8 }}>
           <Text style={{ fontSize: 16, fontWeight: 'bold', color: theme.colors.onSurface }}>
-            Soru {currentQuestionIndex + 1} / {totalQuestions}
+            {t('test.question')} {currentQuestionIndex + 1} / {totalQuestions}
           </Text>
         </View>
         <ProgressBar progress={(currentQuestionIndex + 1) / totalQuestions} color={theme.colors.primary} />
@@ -158,7 +161,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
 
           <Card>
             <Card.Title
-              title="Cevap Seçenekleri"
+              title={t('test.answerOptions')}
               left={() => <ProgressBar progress={0.8} color={theme.colors.secondary} />}
             />
             <Card.Content>
@@ -199,21 +202,21 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
               disabled={currentQuestionIndex === 0}
               style={{ flex: 1, marginRight: 10 }}
             >
-              Önceki
+              {t('test.previous')}
             </Button>
 
             <Button
               onPress={handleSkip}
               style={{ flex: 1, marginHorizontal: 10 }}
             >
-              Atla
+              {t('test.skip')}
             </Button>
 
             <Button
               onPress={completeTest}
               style={{ flex: 1, marginLeft: 10 }}
             >
-              Tamamla
+              {t('test.finish')}
             </Button>
           </View>
 
@@ -222,7 +225,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
 
       <View style={{ backgroundColor: theme.colors.tertiaryContainer, padding: 15, borderTopWidth: 1, borderTopColor: theme.colors.tertiary }}>
         <Text style={{ fontSize: 14, textAlign: 'center', color: theme.colors.onTertiaryContainer }}>
-          Bu test sadece bilgilendirme amaçlıdır. Tıbbi tanı yerine geçmez.
+          {t('testSelection.disclaimer')}
         </Text>
       </View>
     </SafeAreaView>

@@ -1,484 +1,455 @@
 import { Question } from '../types';
 
-export const asrsQuestions: Question[] = [
+// Çeviri fonksiyonu ile dinamik sorular oluşturmak için
+export const createAsrsQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
-    text: "Görevleri veya aktiviteleri organize etmekte zorluk yaşarım",
+    text: t('questions.asrs_1'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 2,
-    text: "Detaylara dikkat etmekte zorluk yaşarım",
+    text: t('questions.asrs_2'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 3,
-    text: "Konuşurken dinleyiciyi dinlemekte zorluk yaşarım",
+    text: t('questions.asrs_3'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 4,
-    text: "Talimatları takip etmekte ve görevleri tamamlamakta zorluk yaşarım",
+    text: t('questions.asrs_4'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 5,
-    text: "Uzun süreli zihinsel çaba gerektiren projeleri organize etmekte zorluk yaşarım",
+    text: t('questions.asrs_5'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 6,
-    text: "Eşyalarımı kaybederim",
+    text: t('questions.asrs_6'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 7,
-    text: "Dikkatim kolayca dağılır",
+    text: t('questions.asrs_7'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 8,
-    text: "Günlük aktiviteleri unuturum",
+    text: t('questions.asrs_8'),
     category: "attention",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 9,
-    text: "Otururken ellerimle veya ayaklarımla sürekli hareket ederim",
+    text: t('questions.asrs_9'),
     category: "hyperactivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 10,
-    text: "Uzun süre oturmakta zorluk yaşarım",
+    text: t('questions.asrs_10'),
     category: "hyperactivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 11,
-    text: "Çok fazla konuşurum",
+    text: t('questions.asrs_11'),
     category: "hyperactivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 12,
-    text: "Sessizce oyun oynamakta veya boş zaman aktivitelerinde yer almaktan zorluk yaşarım",
+    text: t('questions.asrs_12'),
     category: "hyperactivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 13,
-    text: "Sürekli hareket halindeyim",
+    text: t('questions.asrs_13'),
     category: "hyperactivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 14,
-    text: "Sakinleşmekte zorluk yaşarım",
+    text: t('questions.asrs_14'),
     category: "hyperactivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 15,
-    text: "Sıramı beklemekte zorluk yaşarım",
+    text: t('questions.asrs_15'),
     category: "impulsivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 16,
-    text: "Başkalarının konuşmalarını keserim",
+    text: t('questions.asrs_16'),
     category: "impulsivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 17,
-    text: "Düşünmeden hareket ederim",
+    text: t('questions.asrs_17'),
     category: "impulsivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   },
   {
     id: 18,
-    text: "Sonuçlarını düşünmeden tehlikeli aktivitelere katılırım",
+    text: t('questions.asrs_18'),
     category: "impulsivity",
     weight: 1,
     source: "ASRS v1.1 - Harvard Medical School"
   }
 ];
 
-export const vanderbiltParentQuestions: Question[] = [
+// ASRS Screener soruları
+export const createAsrsScreenerQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
-    text: "Dikkatini toplamakta zorluk yaşar",
+    text: t('questions.asrs_1'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "ASRS v1.1 Screener - Harvard Medical School"
   },
   {
     id: 2,
-    text: "Detaylara dikkat etmekte zorluk yaşar",
+    text: t('questions.asrs_2'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "ASRS v1.1 Screener - Harvard Medical School"
   },
   {
     id: 3,
-    text: "Konuşurken dinleyiciyi dinlemekte zorluk yaşar",
+    text: t('questions.asrs_3'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "ASRS v1.1 Screener - Harvard Medical School"
   },
   {
     id: 4,
-    text: "Talimatları takip etmekte zorluk yaşar",
+    text: t('questions.asrs_4'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "ASRS v1.1 Screener - Harvard Medical School"
   },
   {
     id: 5,
-    text: "Görevleri organize etmekte zorluk yaşar",
-    category: "attention",
+    text: t('questions.asrs_9'),
+    category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "ASRS v1.1 Screener - Harvard Medical School"
   },
   {
     id: 6,
-    text: "Uzun süreli zihinsel çaba gerektiren görevlerde zorluk yaşar",
+    text: t('questions.asrs_16'),
+    category: "impulsivity",
+    weight: 1,
+    source: "ASRS v1.1 Screener - Harvard Medical School"
+  }
+];
+
+// Vanderbilt Parent soruları
+export const createVanderbiltParentQuestions = (t: (key: string) => string): Question[] => [
+  {
+    id: 1,
+    text: t('questions.vanderbilt_1'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
+  },
+  {
+    id: 2,
+    text: t('questions.vanderbilt_2'),
+    category: "attention",
+    weight: 1,
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
+  },
+  {
+    id: 3,
+    text: t('questions.vanderbilt_3'),
+    category: "attention",
+    weight: 1,
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
+  },
+  {
+    id: 4,
+    text: t('questions.vanderbilt_4'),
+    category: "attention",
+    weight: 1,
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
+  },
+  {
+    id: 5,
+    text: t('questions.vanderbilt_5'),
+    category: "attention",
+    weight: 1,
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
+  },
+  {
+    id: 6,
+    text: t('questions.vanderbilt_6'),
+    category: "attention",
+    weight: 1,
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 7,
-    text: "Eşyalarını kaybeder",
+    text: t('questions.vanderbilt_7'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 8,
-    text: "Dikkati kolayca dağılır",
+    text: t('questions.vanderbilt_8'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 9,
-    text: "Günlük aktiviteleri unutur",
-    category: "attention",
+    text: t('questions.vanderbilt_9'),
+    category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 10,
-    text: "Otururken ellerle veya ayaklarla sürekli hareket eder",
+    text: t('questions.vanderbilt_10'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 11,
-    text: "Uzun süre oturmakta zorluk yaşar",
+    text: t('questions.vanderbilt_11'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 12,
-    text: "Çok fazla konuşur",
+    text: t('questions.vanderbilt_12'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 13,
-    text: "Sessizce oyun oynamakta zorluk yaşar",
+    text: t('questions.vanderbilt_13'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 14,
-    text: "Sürekli hareket halindedir",
+    text: t('questions.vanderbilt_14'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 15,
-    text: "Sakinleşmekte zorluk yaşar",
-    category: "hyperactivity",
+    text: t('questions.vanderbilt_15'),
+    category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 16,
-    text: "Sırasını beklemekte zorluk yaşar",
+    text: t('questions.vanderbilt_16'),
     category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 17,
-    text: "Başkalarının konuşmalarını keser",
+    text: t('questions.vanderbilt_17'),
     category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   },
   {
     id: 18,
-    text: "Düşünmeden hareket eder",
+    text: t('questions.vanderbilt_18'),
     category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
-  },
-  {
-    id: 19,
-    text: "Tehlikeli aktivitelere katılmakta zorluk yaşar",
-    category: "impulsivity",
-    weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
-  },
-  {
-    id: 20,
-    text: "Başkalarının eşyalarını izinsiz alır",
-    category: "impulsivity",
-    weight: 1,
-    source: "NICHQ Vanderbilt - Ebeveyn Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Parent"
   }
 ];
 
-export const vanderbiltTeacherQuestions: Question[] = [
+// Vanderbilt Teacher soruları
+export const createVanderbiltTeacherQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
-    text: "Dikkatini toplamakta zorluk yaşar",
+    text: t('questions.vanderbilt_1'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 2,
-    text: "Detaylara dikkat etmekte zorluk yaşar",
+    text: t('questions.vanderbilt_2'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 3,
-    text: "Başkaları konuşurken onları dinlemekte zorluk yaşar",
+    text: t('questions.vanderbilt_3'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 4,
-    text: "Talimatları takip etmekte zorluk yaşar",
+    text: t('questions.vanderbilt_4'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 5,
-    text: "Görevleri organize etmekte zorluk yaşar",
+    text: t('questions.vanderbilt_5'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 6,
-    text: "Uzun süreli zihinsel çaba gerektiren görevlerde zorluk yaşar",
+    text: t('questions.vanderbilt_6'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 7,
-    text: "Eşyalarını kaybeder",
+    text: t('questions.vanderbilt_7'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 8,
-    text: "Dikkati kolayca dağılır",
+    text: t('questions.vanderbilt_8'),
     category: "attention",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 9,
-    text: "Günlük aktiviteleri unutur",
-    category: "attention",
+    text: t('questions.vanderbilt_9'),
+    category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 10,
-    text: "Otururken ellerle veya ayaklarla sürekli hareket eder",
+    text: t('questions.vanderbilt_10'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 11,
-    text: "Uzun süre oturmakta zorluk yaşar",
+    text: t('questions.vanderbilt_11'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 12,
-    text: "Çok fazla konuşur",
+    text: t('questions.vanderbilt_12'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 13,
-    text: "Sessizce oyun oynamakta zorluk yaşar",
+    text: t('questions.vanderbilt_13'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 14,
-    text: "Sürekli hareket halindedir",
+    text: t('questions.vanderbilt_14'),
     category: "hyperactivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 15,
-    text: "Sakinleşmekte zorluk yaşar",
-    category: "hyperactivity",
+    text: t('questions.vanderbilt_15'),
+    category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 16,
-    text: "Sırasını beklemekte zorluk yaşar",
+    text: t('questions.vanderbilt_16'),
     category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 17,
-    text: "Başkalarının konuşmalarını keser",
+    text: t('questions.vanderbilt_17'),
     category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   },
   {
     id: 18,
-    text: "Düşünmeden hareket eder",
+    text: t('questions.vanderbilt_18'),
     category: "impulsivity",
     weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
-  },
-  {
-    id: 19,
-    text: "Tehlikeli aktivitelere katılmaya eğilimlidir",
-    category: "impulsivity",
-    weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
-  },
-  {
-    id: 20,
-    text: "Başkalarının eşyalarını izinsiz alır",
-    category: "impulsivity",
-    weight: 1,
-    source: "NICHQ Vanderbilt - Öğretmen Formu"
+    source: "NICHQ Vanderbilt Assessment Scale - Teacher"
   }
 ];
 
-export const asrsScreenerQuestions: Question[] = [
-  {
-    id: 1,
-    text: "Görevleri veya aktiviteleri organize etmekte zorluk yaşarım",
-    category: "attention",
-    weight: 1,
-    source: "ASRS v1.1 Screener - Harvard Medical School"
-  },
-  {
-    id: 2,
-    text: "Detaylara dikkat etmekte zorluk yaşarım",
-    category: "attention",
-    weight: 1,
-    source: "ASRS v1.1 Screener - Harvard Medical School"
-  },
-  {
-    id: 3,
-    text: "Konuşurken başkalarını dinlemekte zorluk yaşarım",
-    category: "attention",
-    weight: 1,
-    source: "ASRS v1.1 Screener - Harvard Medical School"
-  },
-  {
-    id: 4,
-    text: "Talimatları takip etmekte ve görevleri tamamlamakta zorluk yaşarım",
-    category: "attention",
-    weight: 1,
-    source: "ASRS v1.1 Screener - Harvard Medical School"
-  },
-  {
-    id: 5,
-    text: "Otururken ellerimle veya ayaklarımla sürekli hareket ederim",
-    category: "hyperactivity",
-    weight: 1,
-    source: "ASRS v1.1 Screener - Harvard Medical School"
-  },
-  {
-    id: 6,
-    text: "Sonuçlarını düşünmeden tehlikeli aktivitelere katılırım",
-    category: "impulsivity",
-    weight: 1,
-    source: "ASRS v1.1 Screener - Harvard Medical School"
-  }
+// Cevap seçenekleri
+export const createAsrsAnswerOptions = (t: (key: string) => string) => [
+  { value: 0, label: t('answers.never') },
+  { value: 1, label: t('answers.rarely') },
+  { value: 2, label: t('answers.sometimes') },
+  { value: 3, label: t('answers.often') },
+  { value: 4, label: t('answers.veryOften') }
 ];
 
-export const answerOptions = [
-  { value: 0, label: "Hiç" },
-  { value: 1, label: "Bazen" },
-  { value: 2, label: "Orta" },
-  { value: 3, label: "Sık" },
-  { value: 4, label: "Çok Sık" }
+export const createVanderbiltAnswerOptions = (t: (key: string) => string) => [
+  { value: 0, label: t('answers.never') },
+  { value: 1, label: t('answers.rarely') },
+  { value: 2, label: t('answers.sometimes') },
+  { value: 3, label: t('answers.often') }
 ];
 
-export const asrsAnswerOptions = [
-  { value: 0, label: "Hiç" },
-  { value: 1, label: "Bazen" },
-  { value: 2, label: "Orta" },
-  { value: 3, label: "Sık" },
-  { value: 4, label: "Çok Sık" }
-];
-
-export const vanderbiltAnswerOptions = [
-  { value: 0, label: "Hiç" },
-  { value: 1, label: "Bazen" },
-  { value: 2, label: "Sık" },
-  { value: 3, label: "Çok Sık" }
-];
+// Eski hardcoded export'lar kaldırıldı - artık create fonksiyonları kullanılıyor

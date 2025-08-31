@@ -1,7 +1,7 @@
 import { Answer, TestResult, TestType } from '../types';
-import { asrsRiskBands, vanderbiltRiskBands } from '../data/testTypes';
+import { createRiskBands } from '../data/testTypes';
 
-export const calculateScore = (answers: Answer[], testType: TestType): TestResult => {
+export const calculateScore = (answers: Answer[], testType: TestType, t?: (key: string) => string): TestResult => {
   let totalScore = 0;
 
   answers.forEach(answer => {
@@ -18,12 +18,12 @@ export const calculateScore = (answers: Answer[], testType: TestType): TestResul
   if (testType.id.startsWith('asrs')) {
     if (totalScore < 17) {
       riskLevel = 'low';
-      riskBand = 'Negatif (0-16)';
-      recommendation = "ASRS v1.1 sonucu negatif. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
+      riskBand = t ? `${t('testSelection.riskBands.asrs.negative')} (0-16)` : 'Negatif (0-16)';
+      recommendation = t ? t('result.recommendations.asrs.negative') : "ASRS v1.1 sonucu negatif. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
     } else {
       riskLevel = 'high';
-      riskBand = 'Pozitif (17+)';
-      recommendation = "ASRS v1.1 sonucu pozitif. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir psikiyatrist veya nörolog ile görüşmeniz gerekli.";
+      riskBand = t ? `${t('testSelection.riskBands.asrs.positive')} (17+)` : 'Pozitif (17+)';
+      recommendation = t ? t('result.recommendations.asrs.positive') : "ASRS v1.1 sonucu pozitif. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir psikiyatrist veya nörolog ile görüşmeniz gerekli.";
     }
 
     if (testType.id === 'asrs-screener') {
@@ -31,18 +31,18 @@ export const calculateScore = (answers: Answer[], testType: TestType): TestResul
       screenerResult = markedBoxes >= 4;
       
       if (screenerResult) {
-        recommendation += " Koyu kutulardan en az 4'ü işaretli - ileri değerlendirme önerilir.";
+        recommendation += t ? ' ' + t('result.screenerRecommendation') : " Koyu kutulardan en az 4'ü işaretli - ileri değerlendirme önerilir.";
       }
     }
   } else {
     if (totalScore < 6) {
       riskLevel = 'low';
-      riskBand = 'Düşük Risk (0-5)';
-      recommendation = "Vanderbilt sonucu düşük risk. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
+      riskBand = t ? `${t('testSelection.riskBands.vanderbilt.lowRisk')} (0-5)` : 'Düşük Risk (0-5)';
+      recommendation = t ? t('result.recommendations.vanderbilt.lowRisk') : "Vanderbilt sonucu düşük risk. DEHB belirtileri düşük seviyede görünüyor. Ancak bu sadece bir ön taramadır ve kesin tanı koymaz.";
     } else {
       riskLevel = 'high';
-      riskBand = 'Yüksek Risk (6+)';
-      recommendation = "Vanderbilt sonucu yüksek risk. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir çocuk gelişim uzmanı veya psikiyatrist ile görüşmeniz gerekli.";
+      riskBand = t ? `${t('testSelection.riskBands.vanderbilt.highRisk')} (6+)` : 'Yüksek Risk (6+)';
+      recommendation = t ? t('result.recommendations.vanderbilt.highRisk') : "Vanderbilt sonucu yüksek risk. DEHB belirtileri yüksek seviyede görünüyor. Mutlaka bir çocuk gelişim uzmanı veya psikiyatrist ile görüşmeniz gerekli.";
     }
   }
 

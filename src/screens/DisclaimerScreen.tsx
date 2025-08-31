@@ -5,7 +5,8 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Card, Button, Icon, MD3Colors, useTheme} from 'react-native-paper';
-import { testTypes } from '../data/testTypes';
+import { createTestTypes } from '../data/testTypes';
+import { useTranslation } from 'react-i18next';
 
 type DisclaimerScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Disclaimer'>;
 type DisclaimerScreenRouteProp = RouteProp<RootStackParamList, 'Disclaimer'>;
@@ -17,6 +18,7 @@ interface Props {
 
 const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { userSelection } = route.params;
   const [accepted, setAccepted] = useState(false);
 
@@ -26,16 +28,17 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const handleAccept = useCallback(() => {
     if (accepted && userSelection.testType) {
+      const testTypes = createTestTypes(t);
       const selectedTest = testTypes.find(t => t.id === userSelection.testType);
       if (selectedTest) {
         navigation.navigate('Test', { userSelection, testType: selectedTest });
       } else {
         // Fallback: navigate to TestSelection if test type not found
-        Alert.alert('Hata', 'Test tipi bulunamadı. Lütfen tekrar seçiniz.');
+        Alert.alert(t('common.error'), t('disclaimer.testTypeNotFound'));
         navigation.navigate('TestSelection');
       }
     }
-  }, [accepted, userSelection, navigation]);
+  }, [accepted, userSelection, navigation, t]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -47,17 +50,17 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                 size={40}
             />
           <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', color: theme.colors.tertiary }}>
-             Önemli Uyarı
+             {t('disclaimer.title')}
           </Text>
           <Text style={{ fontSize: 16, textAlign: 'center', color: theme.colors.onSurface }}>
-            Lütfen aşağıdaki metni dikkatle okuyun
+            {t('disclaimer.subtitle')}
           </Text>
         </View>
 
         <Card style={{ marginBottom: 24, backgroundColor: theme.colors.tertiaryContainer, borderColor: theme.colors.tertiary }}>
           <Card.Content>
             <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
-              Bu uygulama tanı koymaz; sorumluluk reddi ve aydınlatılmış onam metnini onaylamadan devam edilemez.
+              {t('disclaimer.content')}
             </Text>
           </Card.Content>
         </Card>
@@ -65,11 +68,10 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
         <Card style={{ marginBottom: 16 }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.primary }}>
-              Sorumluluk Reddi
+              {t('disclaimer.responsibilityTitle')}
             </Text>
             <Text style={{ fontSize: 16, lineHeight: 22, color: theme.colors.onSurface }}>
-              Bu uygulama, DEHB (Dikkat Eksikliği Hiperaktivite Bozukluğu) için kanıta dayalı tarama ölçekleri sunar.
-              Ancak aşağıdaki önemli noktaları kabul etmeniz gerekir:
+              {t('disclaimer.responsibilityContent')}
             </Text>
 
             <View style={{ marginBottom: 12 }}>
@@ -78,12 +80,10 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                   source="alert"
                   color={theme.colors.tertiary}
                   size={20}
-              /> Bu testler tanı aracı değildir
+              /> {t('disclaimer.notDiagnosticTitle')}
               </Text>
               <Text style={{ fontSize: 14, marginTop: 8, color: theme.colors.onSurfaceVariant }}>
-                • Yalnızca ön tarama sağlar{'\n'}
-                • Kesin tanı için uzman görüşü gerekir{'\n'}
-                • Tıbbi değerlendirme yerine geçmez
+                {t('disclaimer.notDiagnosticContent')}
               </Text>
             </View>
 
@@ -93,12 +93,10 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                       source="alert"
                       color={theme.colors.tertiary}
                       size={20}
-                  /> Sorumluluk kabul edilmez
+                  /> {t('disclaimer.noLiabilityTitle')}
               </Text>
               <Text style={{ fontSize: 14, marginTop: 8, color: theme.colors.onSurfaceVariant }}>
-                • Test sonuçları sadece bilgilendirme amaçlıdır{'\n'}
-                • Herhangi bir tıbbi karar için kullanılamaz{'\n'}
-                • Uygulama geliştiricisi sorumluluk kabul etmez
+                {t('disclaimer.noLiabilityContent')}
               </Text>
             </View>
 
@@ -108,12 +106,10 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                       source="alert"
                       color={theme.colors.tertiary}
                       size={20}
-                  /> Uzman görüşü gerekir
+                  /> {t('disclaimer.expertOpinionTitle')}
               </Text>
               <Text style={{ fontSize: 14, marginTop: 8, color: theme.colors.onSurfaceVariant }}>
-                • Pozitif sonuç durumunda mutlaka hekime başvurun{'\n'}
-                • Test sonuçlarını hekiminizle paylaşın{'\n'}
-                • Kendi kendinize tedavi uygulamayın
+                {t('disclaimer.expertOpinionContent')}
               </Text>
             </View>
           </Card.Content>
@@ -122,7 +118,7 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
         <Card style={{ marginBottom: 24 }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.primary }}>
-              Onay ve Rıza
+              {t('disclaimer.consentAndAgreement')}
             </Text>
             <TouchableOpacity
               onPress={toggleAcceptance}
@@ -143,7 +139,7 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                 color={accepted ? theme.colors.primary : theme.colors.outline}
               />
               <Text style={{ fontSize: 16, marginLeft: 12, flex: 1, color: theme.colors.onSurface }}>
-                Yukarıdaki tüm koşulları okudum ve kabul ediyorum
+                {t('disclaimer.readAndAgree')}
               </Text>
             </TouchableOpacity>
           </Card.Content>
@@ -155,14 +151,14 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
           disabled={!accepted}
           style={{ marginBottom: 16 }}
         >
-          Devam Et
+          {t('disclaimer.continue')}
         </Button>
 
         <Button
           mode="outlined"
           onPress={() => navigation.goBack()}
         >
-          Geri Dön
+          {t('disclaimer.goBack')}
         </Button>
       </ScrollView>
     </SafeAreaView>

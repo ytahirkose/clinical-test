@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
+import { Platform } from 'react-native';
+
+import { InterstitialAd, AdEventType } from 'react-native-google-mobile-ads';
 import { getPlatformAdConfig, CONTENT_FILTERING_KEYWORDS } from '../config/ads';
 
 interface InterstitialAdProps {
@@ -16,7 +18,13 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [interstitial, setInterstitial] = useState<InterstitialAd | null>(null);
 
+  // Web platformunda reklam gösterme
+  if (Platform.OS === 'web') {
+    return null;
+  }
+
   useEffect(() => {
+
     const adConfig = getPlatformAdConfig();
     const adUnitId = adConfig.interstitial;
     
@@ -55,6 +63,10 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   }, [onAdClosed, onAdLoaded, onAdFailedToLoad]);
 
   const showAd = () => {
+    if (Platform.OS === 'web') {
+      return false;
+    }
+    
     if (interstitial && loaded) {
       interstitial.show();
       return true;

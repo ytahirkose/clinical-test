@@ -1,11 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, Button, TextInput, useTheme } from 'react-native-paper';
-import { testTypes } from '../data/testTypes';
+import { useTranslation } from 'react-i18next';
+import { createTestTypes } from '../data/testTypes';
 import { UserSelection } from '../types';
 
 type TestSelectionScreenNavigationProp = StackNavigationProp<RootStackParamList, 'TestSelection'>;
@@ -18,8 +19,10 @@ interface Props {
 
 const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [age, setAge] = useState('');
   const [selectedTestType, setSelectedTestType] = useState<string>('');
+  const testTypes = useMemo(() => createTestTypes(t), [t]);
 
   useEffect(() => {
     if (age) {
@@ -34,13 +37,13 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const handleContinue = useCallback(() => {
     if (!age || !selectedTestType) {
-      Alert.alert('Hata', 'Lütfen yaş giriniz.');
+      Alert.alert(t('common.error'), t('testSelection.ageRequired'));
       return;
     }
 
     const ageNum = parseInt(age);
     if (ageNum < 6) {
-      Alert.alert('Hata', 'Bu uygulama 6 yaş ve üzeri için tasarlanmıştır.');
+      Alert.alert(t('common.error'), t('testSelection.ageLimit'));
       return;
     }
 
@@ -55,9 +58,9 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
   const getTestTypeDescription = (testType: string) => {
     switch (testType) {
       case 'asrs':
-        return 'WHO ASRS v1.1 - Yetişkinler için (18+ yaş)';
+        return t('testSelection.adultTestDesc');
       case 'vanderbilt-parent':
-        return 'NICHQ Vanderbilt - Çocuklar için (6-17 yaş)';
+        return t('testSelection.childTestDesc');
       default:
         return '';
     }
@@ -68,20 +71,20 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
       <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
           <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', color: theme.colors.onSurface }}>
-            Test Seçimi
+            {t('testSelection.title')}
           </Text>
           <Text style={{ fontSize: 16, textAlign: 'center', color: theme.colors.onSurface }}>
-            Lütfen yaşınızı girin ve uygun test tipini seçin
+            {t('testSelection.subtitle')}
           </Text>
         </View>
 
         <Card style={{ marginBottom: 20 }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
-              Yaş Bilgisi
+              {t('testSelection.ageInfo')}
             </Text>
             <TextInput
-              label="Yaşınız"
+              label={t('testSelection.ageLabel')}
               value={age}
               onChangeText={setAge}
               keyboardType="numeric"
@@ -89,7 +92,7 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
               style={{ marginBottom: 16 }}
             />
             <Text style={{ fontSize: 12, marginTop: 10, color: theme.colors.onSurfaceVariant }}>
-              Yaş bilgisi, size uygun test tipini otomatik olarak seçmek için kullanılır.
+              {t('testSelection.ageDescription')}
             </Text>
           </Card.Content>
         </Card>
@@ -97,7 +100,7 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
         {selectedTestType ? <Card style={{ marginBottom: 24 }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
-              Test Tipi
+              {t('testSelection.testType')}
             </Text>
             <Text style={{ fontSize: 14, color: theme.colors.onSurface }}>
               {getTestTypeDescription(selectedTestType)}
@@ -111,14 +114,14 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
           disabled={!age}
           style={{ marginBottom: 16 }}
         >
-          Devam Et
+          {t('common.continue')}
         </Button>
 
         <Button
           mode="outlined"
           onPress={() => navigation.goBack()}
         >
-          Geri Dön
+          {t('common.back')}
         </Button>
       </ScrollView>
     </SafeAreaView>

@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, Button, useTheme } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 import AdBanner from '../components/AdBanner';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -14,6 +15,7 @@ interface Props {
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const handleStartTest = useCallback(() => {
     navigation.navigate('TestSelection');
@@ -24,17 +26,17 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 32 }}>
           <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 16, textAlign: 'center', color: theme.colors.primary }}>
-            DEHB Tespit
+            {t('home.title')}
           </Text>
           <Text style={{ fontSize: 18, textAlign: 'center', color: theme.colors.onSurface }}>
-            Dikkat Eksikliği Hiperaktivite Bozukluğu Tarama Aracı
+            {t('home.subtitle')}
           </Text>
         </View>
 
         <Card style={{ marginBottom: 24, backgroundColor: theme.colors.surfaceVariant }}>
           <Card.Content>
             <Text style={{ fontSize: 16, lineHeight: 24, color: theme.colors.onTertiaryContainer, textAlign: 'center' }}>
-              Bu uygulama, DEHB belirtilerini değerlendirmek için bilimsel olarak kanıtlanmış tarama ölçekleri kullanır.
+              {t('home.description')}
             </Text>
           </Card.Content>
         </Card>
@@ -42,26 +44,26 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         <Card style={{ marginBottom: 24, backgroundColor: theme.colors.tertiaryContainer }}>
           <Card.Content>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onTertiaryContainer }}>
-              Özellikler
+              {t('home.features')}
             </Text>
             <View style={{ marginBottom: 12 }}>
               <Text style={{ fontSize: 16, color: theme.colors.onTertiaryContainer }}>
-                • ASRS v1.1 Yetişkin DEHB Ölçeği
+                • {t('home.feature1')}
               </Text>
             </View>
             <View style={{ marginBottom: 12 }}>
               <Text style={{ fontSize: 16, color: theme.colors.onTertiaryContainer }}>
-                • NICHQ Vanderbilt Çocuk DEHB Ölçeği
+                • {t('home.feature2')}
               </Text>
             </View>
             <View style={{ marginBottom: 12 }}>
               <Text style={{ fontSize: 16, color: theme.colors.onTertiaryContainer }}>
-                • DSM-5 uyumlu hesaplama
+                • {t('home.feature3')}
               </Text>
             </View>
             <View>
               <Text style={{ fontSize: 16, color: theme.colors.onTertiaryContainer }}>
-                • Profesyonel öneriler
+                • {t('home.feature4')}
               </Text>
             </View>
           </Card.Content>
@@ -72,10 +74,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           onPress={handleStartTest}
           style={{ marginBottom: 16 }}
         >
-          Teste Başla
+          {t('home.startTest')}
         </Button>
 
-        <AdBanner position="bottom" />
+        <AdBanner position="bottom" screen="home" />
       </ScrollView>
     </SafeAreaView>
   );

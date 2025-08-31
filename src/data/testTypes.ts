@@ -1,5 +1,11 @@
 import { TestType } from '../types';
 import { 
+  createAsrsQuestions,
+  createVanderbiltParentQuestions, 
+  createVanderbiltTeacherQuestions,
+  createAsrsScreenerQuestions,
+  createAsrsAnswerOptions,
+  createVanderbiltAnswerOptions,
   asrsQuestions, 
   vanderbiltParentQuestions, 
   vanderbiltTeacherQuestions,
@@ -8,59 +14,73 @@ import {
   vanderbiltAnswerOptions
 } from './questions';
 
-export const testTypes: TestType[] = [
+// Test tiplerini dinamik olarak oluşturmak için fonksiyon
+export const createTestTypes = (t: (key: string) => string): TestType[] => [
+
   {
     id: 'asrs',
-    name: 'ASRS v1.1 Adult ADHD Self-Report Scale',
-    description: '18 yaş ve üzeri yetişkinler için Harvard Medical School tarafından geliştirilmiş DEHB tarama ölçeği',
-    ageRange: '18+ yaş',
-    questions: asrsQuestions,
-    answerOptions: asrsAnswerOptions,
+    name: t('testSelection.testTypes.asrs.name'),
+    description: t('testSelection.testTypes.asrs.description'),
+    ageRange: t('testSelection.testTypes.asrs.ageRange'),
+    questions: createAsrsQuestions(t),
+    answerOptions: createAsrsAnswerOptions(t),
     maxScore: 72,
     cutoffScore: 17,
-    source: 'Harvard Medical School - WHO ASRS v1.1'
+    source: t('testSelection.testTypes.asrs.source')
   },
   {
     id: 'asrs-screener',
-    name: 'ASRS v1.1 6 Soruluk Screener',
-    description: 'ASRS v1.1\'in 6 soruluk kısa versiyonu - koyu kutulardan en az 4\'ü işaretliyse ileri değerlendirme önerilir',
-    ageRange: '18+ yaş',
-    questions: asrsScreenerQuestions,
-    answerOptions: asrsAnswerOptions,
+    name: t('testSelection.testTypes.asrsScreener.name'),
+    description: t('testSelection.testTypes.asrsScreener.description'),
+    ageRange: t('testSelection.testTypes.asrsScreener.ageRange'),
+    questions: createAsrsScreenerQuestions(t),
+    answerOptions: createAsrsAnswerOptions(t),
     maxScore: 24,
     cutoffScore: 4,
-    source: 'Harvard Medical School - ASRS v1.1 Screener'
+    source: t('testSelection.testTypes.asrsScreener.source')
   },
   {
     id: 'vanderbilt-parent',
-    name: 'NICHQ Vanderbilt Assessment Scale - Ebeveyn Formu',
-    description: '4-17 yaş arası çocuk ve ergenler için ebeveyn tarafından doldurulan DEHB tarama ölçeği',
-    ageRange: '4-17 yaş',
-    questions: vanderbiltParentQuestions,
-    answerOptions: vanderbiltAnswerOptions,
+    name: t('testSelection.testTypes.vanderbiltParent.name'),
+    description: t('testSelection.testTypes.vanderbiltParent.description'),
+    ageRange: t('testSelection.testTypes.vanderbiltParent.ageRange'),
+    questions: createVanderbiltParentQuestions(t),
+    answerOptions: createVanderbiltAnswerOptions(t),
     maxScore: 54,
     cutoffScore: 6,
-    source: 'NICHQ Vanderbilt - Ebeveyn Formu'
+    source: t('testSelection.testTypes.vanderbiltParent.source')
   },
   {
     id: 'vanderbilt-teacher',
-    name: 'NICHQ Vanderbilt Assessment Scale - Öğretmen Formu',
-    description: '4-17 yaş arası çocuk ve ergenler için öğretmen tarafından doldurulan DEHB tarama ölçeği',
-    ageRange: '4-17 yaş',
-    questions: vanderbiltTeacherQuestions,
-    answerOptions: vanderbiltAnswerOptions,
+    name: t('testSelection.testTypes.vanderbiltTeacher.name'),
+    description: t('testSelection.testTypes.vanderbiltTeacher.description'),
+    ageRange: t('testSelection.testTypes.vanderbiltTeacher.ageRange'),
+    questions: createVanderbiltTeacherQuestions(t),
+    answerOptions: createVanderbiltAnswerOptions(t),
     maxScore: 54,
     cutoffScore: 6,
-    source: 'NICHQ Vanderbilt - Öğretmen Formu'
+    source: t('testSelection.testTypes.vanderbiltTeacher.source')
   }
 ];
 
-export const asrsRiskBands = {
-  '0-16': 'Negatif',
-  '17+': 'Pozitif'
-};
+export const createRiskBands = (t: (key: string) => string) => ({
+  asrs: {
+    '0-16': t('testSelection.riskBands.asrs.negative'),
+    '17+': t('testSelection.riskBands.asrs.positive')
+  },
+  vanderbilt: {
+    '0-5': t('testSelection.riskBands.vanderbilt.lowRisk'),
+    '6+': t('testSelection.riskBands.vanderbilt.highRisk')
+  }
+});
 
-export const vanderbiltRiskBands = {
-  '0-5': 'Düşük Risk',
-  '6+': 'Yüksek Risk'
-};
+// Geriye uyumluluk için eski export'ları koruyalım
+export const asrsRiskBands = (t: (key: string) => string) => ({
+  '0-16': t('testSelection.riskBands.asrs.negative'),
+  '17+': t('testSelection.riskBands.asrs.positive')
+});
+
+export const vanderbiltRiskBands = (t: (key: string) => string) => ({
+  '0-5': t('testSelection.riskBands.vanderbilt.lowRisk'),
+  '6+': t('testSelection.riskBands.vanderbilt.highRisk')
+});
