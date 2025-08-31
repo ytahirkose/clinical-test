@@ -59,17 +59,17 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 5 }}>
+          <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 5, color: theme.colors.primary }}>
             {score}
           </Text>
-          <Text style={{ fontSize: 14, opacity: 0.9 }}>
+          <Text style={{ fontSize: 14, opacity: 0.9, color: theme.colors.onSurface }}>
             Toplam Puan
           </Text>
         </View>
 
         <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8, color: theme.colors.onSurface }}>
               Risk Seviyesi
             </Text>
             <Text style={{ fontSize: 24, fontWeight: 'bold', color: riskInfo.color, marginBottom: 16 }}>
@@ -88,36 +88,36 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
               Kategori Bazında Değerlendirme
             </Text>
             
             <View style={{ marginBottom: 16 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8 }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8, color: theme.colors.onSurface }}>
                 Dikkat Eksikliği
               </Text>
               {getProgressBar(Math.round((categoryScores.attention / 27) * 100), theme.colors.primary)}
-              <Text style={{ fontSize: 14, marginTop: 4 }}>
+              <Text style={{ fontSize: 14, marginTop: 4, color: theme.colors.onSurfaceVariant }}>
                 {categoryScores.attention} / 27 puan
               </Text>
             </View>
 
             <View style={{ marginBottom: 16 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8 }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8, color: theme.colors.onSurface }}>
                 Hiperaktivite
               </Text>
               {getProgressBar(Math.round((categoryScores.hyperactivity / 18) * 100), theme.colors.tertiary)}
-              <Text style={{ fontSize: 14, marginTop: 4 }}>
+              <Text style={{ fontSize: 14, marginTop: 4, color: theme.colors.onSurfaceVariant }}>
                 {categoryScores.hyperactivity} / 18 puan
               </Text>
             </View>
 
             <View style={{ marginBottom: 16 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8 }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8, color: theme.colors.onSurface }}>
                 Dürtüsellik
               </Text>
               {getProgressBar(Math.round((categoryScores.impulsivity / 18) * 100), theme.colors.primary)}
-              <Text style={{ fontSize: 14, marginTop: 4 }}>
+              <Text style={{ fontSize: 14, marginTop: 4, color: theme.colors.onSurfaceVariant }}>
                 {categoryScores.impulsivity} / 18 puan
               </Text>
             </View>
@@ -126,7 +126,7 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ backgroundColor: theme.colors.tertiaryContainer, borderColor: theme.colors.tertiary }}>
           <Card.Content>
-            <Text style={{ fontSize: 14, textAlign: 'center', fontWeight: '500' }}>
+            <Text style={{ fontSize: 14, textAlign: 'center', fontWeight: '500', color: theme.colors.onTertiaryContainer }}>
               ⚠️ Bu sonuçlar sadece bilgilendirme amaçlıdır. Kesin tanı için uzman görüşü gerekir.
             </Text>
           </Card.Content>

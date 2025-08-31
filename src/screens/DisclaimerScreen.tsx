@@ -42,17 +42,17 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                 color={theme.colors.tertiary}
                 size={40}
             />
-          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' }}>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', color: theme.colors.tertiary }}>
              Önemli Uyarı
           </Text>
-          <Text style={{ fontSize: 16, textAlign: 'center' }}>
+          <Text style={{ fontSize: 16, textAlign: 'center', color: theme.colors.onSurface }}>
             Lütfen aşağıdaki metni dikkatle okuyun
           </Text>
         </View>
 
         <Card style={{ marginBottom: 24, backgroundColor: theme.colors.tertiaryContainer, borderColor: theme.colors.tertiary }}>
           <Card.Content>
-            <Text style={{ fontSize: 16 }}>
+            <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
               Bu uygulama tanı koymaz; sorumluluk reddi ve aydınlatılmış onam metnini onaylamadan devam edilemez.
             </Text>
           </Card.Content>
@@ -60,23 +60,23 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.primary }}>
               Sorumluluk Reddi
             </Text>
-            <Text style={{ fontSize: 16, lineHeight: 22 }}>
+            <Text style={{ fontSize: 16, lineHeight: 22, color: theme.colors.onSurface }}>
               Bu uygulama, DEHB (Dikkat Eksikliği Hiperaktivite Bozukluğu) için kanıta dayalı tarama ölçekleri sunar.
               Ancak aşağıdaki önemli noktaları kabul etmeniz gerekir:
             </Text>
 
             <View style={{ marginBottom: 12 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600' }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', color: theme.colors.error }}>
                 <Icon
                   source="alert"
                   color={theme.colors.tertiary}
                   size={20}
               /> Bu testler tanı aracı değildir
               </Text>
-              <Text style={{ fontSize: 14, marginTop: 8 }}>
+              <Text style={{ fontSize: 14, marginTop: 8, color: theme.colors.onSurfaceVariant }}>
                 • Yalnızca ön tarama sağlar{'\n'}
                 • Kesin tanı için uzman görüşü gerekir{'\n'}
                 • Tıbbi değerlendirme yerine geçmez
@@ -84,14 +84,14 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
             </View>
 
             <View style={{ marginBottom: 12 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600' }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', color: theme.colors.error }}>
                   <Icon
                       source="alert"
                       color={theme.colors.tertiary}
                       size={20}
                   /> Sorumluluk kabul edilmez
               </Text>
-              <Text style={{ fontSize: 14, marginTop: 8 }}>
+              <Text style={{ fontSize: 14, marginTop: 8, color: theme.colors.onSurfaceVariant }}>
                 • Test sonuçları sadece bilgilendirme amaçlıdır{'\n'}
                 • Herhangi bir tıbbi karar için kullanılamaz{'\n'}
                 • Uygulama geliştiricisi sorumluluk kabul etmez
@@ -99,14 +99,14 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
             </View>
 
             <View>
-              <Text style={{ fontSize: 16, fontWeight: '600' }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', color: theme.colors.error }}>
                   <Icon
                       source="alert"
                       color={theme.colors.tertiary}
                       size={20}
                   /> Uzman görüşü gerekir
               </Text>
-              <Text style={{ fontSize: 14, marginTop: 8 }}>
+              <Text style={{ fontSize: 14, marginTop: 8, color: theme.colors.onSurfaceVariant }}>
                 • Pozitif sonuç durumunda mutlaka hekime başvurun{'\n'}
                 • Test sonuçlarını hekiminizle paylaşın{'\n'}
                 • Kendi kendinize tedavi uygulamayın
@@ -117,7 +117,7 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ marginBottom: 24 }}>
           <Card.Content>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.primary }}>
               Onay ve Rıza
             </Text>
             <TouchableOpacity
@@ -138,7 +138,7 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
                 size={24}
                 color={accepted ? theme.colors.primary : theme.colors.outline}
               />
-              <Text style={{ fontSize: 16, marginLeft: 12, flex: 1 }}>
+              <Text style={{ fontSize: 16, marginLeft: 12, flex: 1, color: theme.colors.onSurface }}>
                 Yukarıdaki tüm koşulları okudum ve kabul ediyorum
               </Text>
             </TouchableOpacity>

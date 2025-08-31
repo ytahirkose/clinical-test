@@ -136,7 +136,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View style={{ backgroundColor: theme.colors.surface, padding: 16, borderBottomWidth: 1, borderBottomColor: theme.colors.outline }}>
         <View style={{ alignItems: 'center', marginBottom: 8 }}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: theme.colors.onSurface }}>
             Soru {currentQuestionIndex + 1} / {totalQuestions}
           </Text>
         </View>
@@ -148,7 +148,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
           <Card style={{marginBottom: 10}}>
             <Card.Content>
               <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                <Text style={{ fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500' }}>
+                <Text style={{ fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500', color: theme.colors.onSurface }}>
                   {currentQuestion.text}
                 </Text>
               </View>
@@ -181,7 +181,8 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
                     <Text style={{
                       fontSize: 16,
                       fontWeight: '500',
-                      flex: 1
+                      flex: 1,
+                      color: theme.colors.onSurface
                     }}>
                       {option.label}
                     </Text>
@@ -219,7 +220,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
         </ScrollView>
 
       <View style={{ backgroundColor: theme.colors.tertiaryContainer, padding: 15, borderTopWidth: 1, borderTopColor: theme.colors.tertiary }}>
-        <Text style={{ fontSize: 14, textAlign: 'center' }}>
+        <Text style={{ fontSize: 14, textAlign: 'center', color: theme.colors.onTertiaryContainer }}>
           Bu test sadece bilgilendirme amaçlıdır. Tıbbi tanı yerine geçmez.
         </Text>
       </View>

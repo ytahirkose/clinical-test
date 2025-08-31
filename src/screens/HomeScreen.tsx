@@ -26,10 +26,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <View style={{ alignItems: 'center', marginBottom: 20 }}>
-          <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' }}>
+          <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', color: theme.colors.primary }}>
             🧠 DEHB Tespit
           </Text>
-          <Text style={{ fontSize: 18, textAlign: 'center', lineHeight: 26 }}>
+          <Text style={{ fontSize: 18, textAlign: 'center', lineHeight: 26, color: theme.colors.onSurface }}>
             Dikkat Eksikliği Hiperaktivite Bozukluğu için kanıta dayalı tarama ölçekleri
           </Text>
         </View>
@@ -44,11 +44,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
         <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12, color: theme.colors.primary }}>
               Özellikler
             </Text>
             <View style={{ marginBottom: 12 }}>
-              <Text style={{ fontSize: 16, lineHeight: 24 }}>
+              <Text style={{ fontSize: 16, lineHeight: 24, color: theme.colors.onSurface }}>
                 • WHO ASRS v1.1 (Yetişkinler için){'\n'}
                 • NICHQ Vanderbilt (Çocuklar için){'\n'}
                 • DSM-5 uyumlu değerlendirme{'\n'}
@@ -71,7 +71,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
         <Card style={{ marginTop: 20, backgroundColor: theme.colors.tertiaryContainer }}>
           <Card.Content>
-            <Text style={{ fontSize: 14, textAlign: 'center', fontWeight: '500' }}>
+            <Text style={{ fontSize: 14, textAlign: 'center', fontWeight: '500', color: theme.colors.onTertiaryContainer }}>
               ⚠️ Bu uygulama tanı koymaz; sadece tarama amaçlıdır. Kesin tanı için uzman görüşü gerekir.
             </Text>
           </Card.Content>

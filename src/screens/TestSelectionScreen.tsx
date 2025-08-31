@@ -69,17 +69,17 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' }}>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', color: theme.colors.onSurface }}>
             Test Seçimi
           </Text>
-          <Text style={{ fontSize: 16, textAlign: 'center' }}>
+          <Text style={{ fontSize: 16, textAlign: 'center', color: theme.colors.onSurface }}>
             Lütfen yaşınızı girin ve uygun test tipini seçin
           </Text>
         </View>
 
         <Card style={{ marginBottom: 20 }}>
           <Card.Content>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
               Yaş Bilgisi
             </Text>
             <TextInput
@@ -90,7 +90,7 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
               mode="outlined"
               style={{ marginBottom: 16 }}
             />
-            <Text style={{ fontSize: 12, marginTop: 10 }}>
+            <Text style={{ fontSize: 12, marginTop: 10, color: theme.colors.onSurfaceVariant }}>
               Yaş bilgisi, size uygun test tipini otomatik olarak seçmek için kullanılır.
             </Text>
           </Card.Content>
@@ -98,10 +98,10 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ marginBottom: 24 }}>
           <Card.Content>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, color: theme.colors.onSurface }}>
               Test Tipi
             </Text>
-            <Text style={{ fontSize: 14 }}>
+            <Text style={{ fontSize: 14, color: theme.colors.onSurface }}>
               {selectedTestType ? getTestTypeDescription(selectedTestType) : 'Yaş giriniz...'}
             </Text>
           </Card.Content>
