@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, Alert, Linking } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, Button, Chip, Divider } from 'react-native-paper';
+import { Card, Button, useTheme } from 'react-native-paper';
 import { calculateScore, getCategoryScores } from '../utils/scoreCalculator';
 import { Answer } from '../types';
 
@@ -17,143 +17,137 @@ interface Props {
 }
 
 const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
+  const theme = useTheme();
   const { score, answers, testType, userSelection } = route.params;
 
   const answerObjects: Answer[] = answers.map((value, index) => ({
     questionId: index + 1,
-    value,
+    value
   }));
 
-  const result = calculateScore(answerObjects, testType);
   const categoryScores = getCategoryScores(answerObjects, testType);
 
-  const getRiskLevelColor = (riskLevel: string) => {
-    switch (riskLevel) {
-      case 'low': return '#52c41a';
-      case 'medium': return '#faad14';
-      case 'high': return '#ff4d4f';
-      default: return '#1890ff';
+  const getRiskLevel = (score: number) => {
+    if (score <= 16) return { level: 'low', label: 'Düşük Risk', color: theme.colors.primary };
+    if (score <= 23) return { level: 'medium', label: 'Orta Risk', color: theme.colors.tertiary };
+    return { level: 'high', label: 'Yüksek Risk', color: theme.colors.error };
+  };
+
+  const getRiskColor = (level: string) => {
+    switch (level) {
+      case 'low': return theme.colors.primary;
+      case 'medium': return theme.colors.tertiary;
+      case 'high': return theme.colors.error;
+      default: return theme.colors.primary;
     }
   };
 
-  const getRiskLevelText = (riskLevel: string) => {
-    switch (riskLevel) {
-      case 'low': return 'Düşük Risk';
-      case 'medium': return 'Orta Risk';
-      case 'high': return 'Yüksek Risk';
-      default: return 'Bilinmiyor';
-    }
-  };
+  const getProgressBar = (percentage: number, color: string) => (
+    <View style={{ height: 8, backgroundColor: theme.colors.outline, borderRadius: 4, overflow: 'hidden' }}>
+      <View style={{
+        height: '100%',
+        backgroundColor: color,
+        borderRadius: 4,
+        width: `${percentage}%`
+      }} />
+    </View>
+  );
 
-  const getProgressBar = (percentage: number, color: string) => {
-    return (
-      <View style={{ height: 8, backgroundColor: '#f0f0f0', borderRadius: 4, overflow: 'hidden' }}>
-        <View style={{ width: `${percentage}%`, height: '100%', backgroundColor: color }} />
-      </View>
-    );
-  };
-
-  const handleEmergency = () => {
-    Alert.alert(
-      'Acil Durum',
-      "Eğer acil bir durum yaşıyorsanız, lütfen 112'yi arayın veya en yakın hastaneye gidin.",
-      [
-        { text: 'Tamam', style: 'default' },
-        { text: '112 Ara', onPress: () => Linking.openURL('tel:112') }
-      ]
-    );
-  };
+  const riskInfo = getRiskLevel(score);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f5f5f5' }}>
-      <ScrollView style={{ paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 8, paddingBottom: 16 }}>
-        <View style={{ alignItems: 'center', marginBottom: 20 }}>
-          <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#1890ff', marginBottom: 5 }}>
-            {result.percentage}%
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
+        <View style={{ alignItems: 'center', marginBottom: 24 }}>
+          <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 5 }}>
+            {score}
           </Text>
-          <Text style={{ fontSize: 14, color: '#1890ff', opacity: 0.9 }}>
-            Risk Oranı
+          <Text style={{ fontSize: 14, opacity: 0.9 }}>
+            Toplam Puan
           </Text>
         </View>
 
-        <Chip
-          style={{
-            backgroundColor: getRiskLevelColor(result.riskLevel),
-            alignSelf: 'center',
-            marginBottom: 20
-          }}
-          textStyle={{ color: '#fff', fontWeight: 'bold' }}
-        >
-          {getRiskLevelText(result.riskLevel)}
-        </Chip>
-
-        <Card style={{ marginBottom: 20 }}>
+        <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: '#333' }}>
-              Önerimiz
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>
+              Risk Seviyesi
             </Text>
-            <Text style={{ fontSize: 16, color: '#666', lineHeight: 22 }}>
-              {result.recommendation}
+            <Text style={{ fontSize: 24, fontWeight: 'bold', color: riskInfo.color, marginBottom: 16 }}>
+              {riskInfo.label}
             </Text>
-          </Card.Content>
-        </Card>
-
-        <Card style={{ marginBottom: 20 }}>
-          <Card.Content>
-
-            <View style={{ marginBottom: 15 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-                <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>Dikkat Eksikliği</Text>
-                <Text style={{ fontSize: 12, color: '#666', fontWeight: '500' }}>
-                  {categoryScores.attention}/27
-                </Text>
-              </View>
-              {getProgressBar(Math.round((categoryScores.attention / 27) * 100), "#1890ff")}
-            </View>
-
-            <Divider style={{ marginVertical: 15 }} />
-
-            <View style={{ marginBottom: 15 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-                <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>Hiperaktivite</Text>
-                <Text style={{ fontSize: 12, color: '#666', fontWeight: '500' }}>
-                  {categoryScores.hyperactivity}/18
-                </Text>
-              </View>
-              {getProgressBar(Math.round((categoryScores.hyperactivity / 18) * 100), "#faad14")}
-            </View>
-
-            <Divider style={{ marginVertical: 15 }} />
-
-            <View style={{ marginBottom: 15 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-                <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>Dürtüsellik</Text>
-                <Text style={{ fontSize: 12, color: '#666', fontWeight: '500' }}>
-                  {categoryScores.impulsivity}/18
-                </Text>
-              </View>
-              {getProgressBar(Math.round((categoryScores.impulsivity / 18) * 100), "#52c41a")}
+            <View style={{ height: 8, backgroundColor: theme.colors.outline, borderRadius: 4, overflow: 'hidden' }}>
+              <View style={{
+                height: '100%',
+                backgroundColor: riskInfo.color,
+                borderRadius: 4,
+                width: `${Math.min((score / 72) * 100, 100)}%`
+              }} />
             </View>
           </Card.Content>
         </Card>
 
-        <Card style={{ backgroundColor: '#fff7e6', borderColor: '#ffe58f' }}>
+        <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={{ fontSize: 14, color: '#faad14', textAlign: 'center', fontWeight: '500' }}>
-              ⚠️ Bu test sadece bilgilendirme amaçlıdır. Tıbbi tanı değildir!
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+              Kategori Bazında Değerlendirme
+            </Text>
+            
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8 }}>
+                Dikkat Eksikliği
+              </Text>
+              {getProgressBar(Math.round((categoryScores.attention / 27) * 100), theme.colors.primary)}
+              <Text style={{ fontSize: 14, marginTop: 4 }}>
+                {categoryScores.attention} / 27 puan
+              </Text>
+            </View>
+
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8 }}>
+                Hiperaktivite
+              </Text>
+              {getProgressBar(Math.round((categoryScores.hyperactivity / 18) * 100), theme.colors.tertiary)}
+              <Text style={{ fontSize: 14, marginTop: 4 }}>
+                {categoryScores.hyperactivity} / 18 puan
+              </Text>
+            </View>
+
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: '600', marginBottom: 8 }}>
+                Dürtüsellik
+              </Text>
+              {getProgressBar(Math.round((categoryScores.impulsivity / 18) * 100), theme.colors.primary)}
+              <Text style={{ fontSize: 14, marginTop: 4 }}>
+                {categoryScores.impulsivity} / 18 puan
+              </Text>
+            </View>
+          </Card.Content>
+        </Card>
+
+        <Card style={{ backgroundColor: theme.colors.tertiaryContainer, borderColor: theme.colors.tertiary }}>
+          <Card.Content>
+            <Text style={{ fontSize: 14, textAlign: 'center', fontWeight: '500' }}>
+              ⚠️ Bu sonuçlar sadece bilgilendirme amaçlıdır. Kesin tanı için uzman görüşü gerekir.
             </Text>
           </Card.Content>
         </Card>
 
-          <View style={{ marginTop: 15 }}>
-              <Button
-                  onPress={() => navigation.navigate('Home')}
-                  style={{ marginBottom: 15 }}
-                  icon="home"
-              >
-                  Ana Sayfaya Dön
-              </Button>
-          </View>
+        <View style={{ marginTop: 24 }}>
+          <Button
+            mode="contained"
+            onPress={() => navigation.navigate('Home')}
+            style={{ marginBottom: 12 }}
+          >
+            Ana Sayfaya Dön
+          </Button>
+          
+          <Button
+            mode="outlined"
+            onPress={() => navigation.navigate('TestSelection')}
+          >
+            Yeni Test
+          </Button>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

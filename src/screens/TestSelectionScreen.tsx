@@ -1,118 +1,127 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, Button, TextInput, Chip } from 'react-native-paper';
-import { theme, getTextStyle, getHeadingStyle } from '../utils/fonts';
+import { Card, Button, TextInput, useTheme } from 'react-native-paper';
+import { testTypes } from '../data/testTypes';
 import { UserSelection } from '../types';
 
 type TestSelectionScreenNavigationProp = StackNavigationProp<RootStackParamList, 'TestSelection'>;
+type TestSelectionScreenRouteProp = RouteProp<RootStackParamList, 'TestSelection'>;
 
 interface Props {
   navigation: TestSelectionScreenNavigationProp;
+  route: TestSelectionScreenRouteProp;
 }
 
-const TestSelectionScreen: React.FC<Props> = ({ navigation }) => {
-  const [userSelection, setUserSelection] = useState<UserSelection>({
-    age: '',
-    testType: '',
-    relationship: ''
-  });
+const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
+  const theme = useTheme();
+  const [age, setAge] = useState('');
+  const [selectedTestType, setSelectedTestType] = useState<string>('');
 
   useEffect(() => {
-    if (userSelection.age) {
-      const age = parseInt(userSelection.age);
-
-      if (age >= 18) {
-        if (userSelection.testType !== 'asrs') {
-          setUserSelection(prev => ({ ...prev, testType: 'asrs', relationship: '' }));
-        }
+    if (age) {
+      const ageNum = parseInt(age);
+      if (ageNum >= 18) {
+        setSelectedTestType('asrs');
+      } else if (ageNum >= 6) {
+        setSelectedTestType('vanderbilt-parent');
       } else {
-        if (userSelection.testType !== 'vanderbilt-parent') {
-          setUserSelection(prev => ({ ...prev, testType: 'vanderbilt-parent', relationship: 'parent' }));
-        }
+        setSelectedTestType('');
       }
     }
-  }, [userSelection.age]);
+  }, [age]);
 
-  const handleAgeChange = (age: string) => {
-    setUserSelection(prev => ({ ...prev, age }));
-  };
-
-  const handleStartTest = () => {
-    if (!userSelection.age || !userSelection.testType) {
-      Alert.alert('Uyarı', 'Lütfen yaş ve test tipini seçiniz.');
+  const handleContinue = useCallback(() => {
+    if (!age || !selectedTestType) {
+      Alert.alert('Hata', 'Lütfen yaş giriniz ve test tipini seçiniz.');
       return;
     }
 
-    const age = parseInt(userSelection.age);
-
-    if (isNaN(age) || age < 4 || age > 100) {
-      Alert.alert('Uyarı', 'Lütfen geçerli bir yaş giriniz (4-100).');
+    const ageNum = parseInt(age);
+    if (ageNum < 6) {
+      Alert.alert('Hata', 'Bu uygulama 6 yaş ve üzeri için tasarlanmıştır.');
       return;
     }
 
-    if (age < 18 && !userSelection.testType?.includes('vanderbilt')) {
-      Alert.alert('Uyarı', '18 yaş altı için Vanderbilt ölçekleri kullanılmalıdır.');
-      return;
-    }
-    if (age >= 18 && userSelection.testType?.includes('vanderbilt')) {
-      Alert.alert('Uyarı', '18 yaş üstü için ASRS ölçekleri kullanılmalıdır.');
-      return;
-    }
+    const userSelection: UserSelection = {
+      age: ageNum,
+      testType: selectedTestType
+    };
 
     navigation.navigate('Disclaimer', { userSelection });
+  }, [age, selectedTestType, navigation]);
+
+  const getTestTypeDescription = (testType: string) => {
+    switch (testType) {
+      case 'asrs':
+        return 'WHO ASRS v1.1 - Yetişkinler için (18+ yaş)';
+      case 'vanderbilt-parent':
+        return 'NICHQ Vanderbilt - Çocuklar için (6-17 yaş)';
+      default:
+        return '';
+    }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background.secondary }}>
-      <ScrollView style={{ paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 8, paddingBottom: 16 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <Text style={[getHeadingStyle(24, 'bold', theme.colors.primary), { marginBottom: 12 }]}>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' }}>
             Test Seçimi
           </Text>
-          <Text style={[getTextStyle(16, 'normal', theme.colors.text.secondary), { textAlign: 'center' }]}>
-            Size uygun testi seçin
+          <Text style={{ fontSize: 16, textAlign: 'center' }}>
+            Lütfen yaşınızı girin ve uygun test tipini seçin
           </Text>
         </View>
 
+        <Card style={{ marginBottom: 20 }}>
+          <Card.Content>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+              Yaş Bilgisi
+            </Text>
+            <TextInput
+              label="Yaşınız"
+              value={age}
+              onChangeText={setAge}
+              keyboardType="numeric"
+              mode="outlined"
+              style={{ marginBottom: 16 }}
+            />
+            <Text style={{ fontSize: 12, marginTop: 10 }}>
+              Yaş bilgisi, size uygun test tipini otomatik olarak seçmek için kullanılır.
+            </Text>
+          </Card.Content>
+        </Card>
+
         <Card style={{ marginBottom: 24 }}>
           <Card.Content>
-            <TextInput
-                mode="outlined"
-              value={userSelection.age}
-              onChangeText={handleAgeChange}
-              placeholder="Yaşınızı giriniz"
-              keyboardType="numeric"
-            />
-            <Text style={{...getTextStyle(12, 'normal', theme.colors.text.secondary), marginTop: 10}}>
-                Yaş bilginize göre size uygun test otomatik olarak seçilecektir.
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+              Test Tipi
+            </Text>
+            <Text style={{ fontSize: 14 }}>
+              {selectedTestType ? getTestTypeDescription(selectedTestType) : 'Yaş giriniz...'}
             </Text>
           </Card.Content>
         </Card>
 
         <Button
-            mode="contained"
-          onPress={handleStartTest}
-          disabled={!userSelection.age}
+          mode="contained"
+          onPress={handleContinue}
+          disabled={!age || !selectedTestType}
+          style={{ marginBottom: 16 }}
         >
-          Teste Başla
+          Devam Et
         </Button>
 
-        <Card style={{ marginTop: 24, marginBottom: 24 }}>
-          <Card.Content>
-            <Text style={[getHeadingStyle(18, 'bold', theme.colors.primary), { marginBottom: 16 }]}>
-              Önemli Notlar
-            </Text>
-            <Text style={getTextStyle(14, 'normal', theme.colors.text.secondary)}>
-              • Bu testler tanı aracı değildir; yalnızca ön tarama sağlar{'\n'}
-              • Sonuçlarınızı bir hekimle paylaşmanız önerilir{'\n'}
-              • Test sonuçları yerel olarak saklanır{'\n'}
-              • Resmi ölçek metinleri değiştirilmemiştir
-            </Text>
-          </Card.Content>
-        </Card>
+        <Button
+          mode="outlined"
+          onPress={() => navigation.goBack()}
+        >
+          Geri Dön
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );

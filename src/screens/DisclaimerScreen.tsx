@@ -4,8 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Card, Button, Icon, MD3Colors} from 'react-native-paper';
-import { theme, getTextStyle, getHeadingStyle } from '../utils/fonts';
+import {Card, Button, Icon, MD3Colors, useTheme} from 'react-native-paper';
 import { testTypes } from '../data/testTypes';
 
 type DisclaimerScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Disclaimer'>;
@@ -17,6 +16,7 @@ interface Props {
 }
 
 const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
+  const theme = useTheme();
   const { userSelection } = route.params;
   const [accepted, setAccepted] = useState(false);
 
@@ -34,25 +34,25 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
   }, [accepted, userSelection, navigation]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background.secondary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView style={{ paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 8, paddingBottom: 16 }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
             <Icon
                 source="alert"
-                color={'orange'}
+                color={theme.colors.tertiary}
                 size={40}
             />
-          <Text style={[getHeadingStyle(24, 'bold', '#faad14'), { marginBottom: 12 }]}>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' }}>
              Önemli Uyarı
           </Text>
-          <Text style={[getTextStyle(16, 'normal', theme.colors.text.secondary), { textAlign: 'center' }]}>
+          <Text style={{ fontSize: 16, textAlign: 'center' }}>
             Lütfen aşağıdaki metni dikkatle okuyun
           </Text>
         </View>
 
-        <Card style={{ marginBottom: 24, backgroundColor: '#fff7e6', borderColor: '#ffe58f' }}>
+        <Card style={{ marginBottom: 24, backgroundColor: theme.colors.tertiaryContainer, borderColor: theme.colors.tertiary }}>
           <Card.Content>
-            <Text style={getTextStyle(16, 'normal', theme.colors.text.primary)}>
+            <Text style={{ fontSize: 16 }}>
               Bu uygulama tanı koymaz; sorumluluk reddi ve aydınlatılmış onam metnini onaylamadan devam edilemez.
             </Text>
           </Card.Content>
@@ -60,23 +60,23 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ marginBottom: 16 }}>
           <Card.Content>
-            <Text style={[getHeadingStyle(18, 'bold', theme.colors.primary), { marginBottom: 16 }]}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
               Sorumluluk Reddi
             </Text>
-            <Text style={getTextStyle(16, 'normal')}>
+            <Text style={{ fontSize: 16, lineHeight: 22 }}>
               Bu uygulama, DEHB (Dikkat Eksikliği Hiperaktivite Bozukluğu) için kanıta dayalı tarama ölçekleri sunar.
               Ancak aşağıdaki önemli noktaları kabul etmeniz gerekir:
             </Text>
 
             <View style={{ marginBottom: 12 }}>
-              <Text style={getTextStyle(16, '600', '#ff4d4f')}>
+              <Text style={{ fontSize: 16, fontWeight: '600' }}>
                 <Icon
                   source="alert"
-                  color={'orange'}
+                  color={theme.colors.tertiary}
                   size={20}
               /> Bu testler tanı aracı değildir
               </Text>
-              <Text style={getTextStyle(14, 'normal', theme.colors.text.secondary)}>
+              <Text style={{ fontSize: 14, marginTop: 8 }}>
                 • Yalnızca ön tarama sağlar{'\n'}
                 • Kesin tanı için uzman görüşü gerekir{'\n'}
                 • Tıbbi değerlendirme yerine geçmez
@@ -84,14 +84,14 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
             </View>
 
             <View style={{ marginBottom: 12 }}>
-              <Text style={getTextStyle(16, '600', '#ff4d4f')}>
+              <Text style={{ fontSize: 16, fontWeight: '600' }}>
                   <Icon
                       source="alert"
-                      color={'orange'}
+                      color={theme.colors.tertiary}
                       size={20}
                   /> Sorumluluk kabul edilmez
               </Text>
-              <Text style={getTextStyle(14, 'normal', theme.colors.text.secondary)}>
+              <Text style={{ fontSize: 14, marginTop: 8 }}>
                 • Test sonuçları sadece bilgilendirme amaçlıdır{'\n'}
                 • Herhangi bir tıbbi karar için kullanılamaz{'\n'}
                 • Uygulama geliştiricisi sorumluluk kabul etmez
@@ -99,14 +99,14 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
             </View>
 
             <View>
-              <Text style={getTextStyle(16, '600', '#ff4d4f')}>
+              <Text style={{ fontSize: 16, fontWeight: '600' }}>
                   <Icon
                       source="alert"
-                      color={'orange'}
+                      color={theme.colors.tertiary}
                       size={20}
                   /> Uzman görüşü gerekir
               </Text>
-              <Text style={getTextStyle(14, 'normal', theme.colors.text.secondary)}>
+              <Text style={{ fontSize: 14, marginTop: 8 }}>
                 • Pozitif sonuç durumunda mutlaka hekime başvurun{'\n'}
                 • Test sonuçlarını hekiminizle paylaşın{'\n'}
                 • Kendi kendinize tedavi uygulamayın
@@ -117,7 +117,7 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <Card style={{ marginBottom: 24 }}>
           <Card.Content>
-            <Text style={[getHeadingStyle(18, 'bold', theme.colors.primary), { marginBottom: 16 }]}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
               Onay ve Rıza
             </Text>
             <TouchableOpacity
@@ -125,44 +125,41 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                  justifyContent: 'space-between',
-                paddingVertical: 8,
-                  paddingRight: 20
+                paddingVertical: 12,
+                borderWidth: 2,
+                borderRadius: 8,
+                borderColor: accepted ? theme.colors.primary : theme.colors.outline,
+                paddingHorizontal: 16,
+                backgroundColor: accepted ? theme.colors.primaryContainer : 'transparent'
               }}
             >
-              <View style={{
-                borderWidth: 2,
-                borderColor: accepted ? theme.colors.primary : '#d9d9d9',
-                backgroundColor: accepted ? theme.colors.primary : 'white',
-              }}>
-                  {accepted ? <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', width: 20, height: 20, textAlign: 'center'}}>✓</Text> : <Text style={{width: 20, height: 20}}> </Text>}
-              </View>
-              <Text style={{...getTextStyle(16, 'normal'), marginLeft: 10}}>
-                Yukarıdaki tüm uyarıları okudum ve kabul ediyorum.
-                Bu uygulamayı kullanarak herhangi bir sorumluluk kabul etmediğimi
-                ve test sonuçlarının sadece bilgilendirme amaçlı olduğunu anlıyorum.
+              <Icon
+                source={accepted ? 'check-circle' : 'circle-outline'}
+                size={24}
+                color={accepted ? theme.colors.primary : theme.colors.outline}
+              />
+              <Text style={{ fontSize: 16, marginLeft: 12, flex: 1 }}>
+                Yukarıdaki tüm koşulları okudum ve kabul ediyorum
               </Text>
             </TouchableOpacity>
           </Card.Content>
         </Card>
 
         <Button
-          onPress={handleAccept}
           mode="contained"
+          onPress={handleAccept}
           disabled={!accepted}
-          style={{
-            backgroundColor: accepted ? theme.colors.primary : '#d9d9d9'
-          }}
+          style={{ marginBottom: 16 }}
         >
           Devam Et
         </Button>
 
-        <View style={{ alignItems: 'center', marginTop: 24 }}>
-          <Text style={getTextStyle(12, 'normal', theme.colors.text.secondary)}>
-            Bu uygulama Harvard Medical School ve NICHQ tarafından geliştirilen{'\n'}
-            resmi ölçekleri kullanır. Metinler değiştirilmemiştir.
-          </Text>
-        </View>
+        <Button
+          mode="outlined"
+          onPress={() => navigation.goBack()}
+        >
+          Geri Dön
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );

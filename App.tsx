@@ -31,7 +31,7 @@ export default function App() {
         try {
           await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
         } catch (error) {
-          console.warn('Orientation lock failed:', error);
+          // Orientation lock failed silently
         }
       };
       lockOrientation();
@@ -47,7 +47,7 @@ export default function App() {
               initialRouteName="Home"
               screenOptions={{
                 headerStyle: {
-                  backgroundColor: '#988888',
+                  backgroundColor: '#6200ee',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {

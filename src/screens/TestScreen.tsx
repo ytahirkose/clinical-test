@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Card, Button, ProgressBar, Checkbox} from 'react-native-paper';
+import {Card, Button, ProgressBar, Checkbox, useTheme} from 'react-native-paper';
 import { testTypes } from '../data/testTypes';
 import { Answer, TestType } from '../types';
 import { calculateScore } from '../utils/scoreCalculator';
@@ -18,6 +18,7 @@ interface Props {
 }
 
 const TestScreen: React.FC<Props> = ({ navigation, route }) => {
+  const theme = useTheme();
   const { testType, userSelection } = route.params;
 
   const selectedTest = useMemo(() => testTypes.find(t => t.id === testType.id), [testType]);
@@ -116,14 +117,14 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
     return (
       <View style={{
         height: 8,
-        backgroundColor: '#e0e0e0',
+        backgroundColor: theme.colors.outline,
         borderRadius: 4,
         overflow: 'hidden',
         width: '100%'
       }}>
         <View style={{
           height: '100%',
-          backgroundColor: '#1890ff',
+          backgroundColor: theme.colors.primary,
           borderRadius: 4,
           width: `${progressPercent}%`
         }} />
@@ -132,14 +133,14 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f5f5f5' }}>
-      <View style={{ backgroundColor: '#fff', padding: 16, borderBottomWidth: 1, borderBottomColor: '#e0e0e0' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <View style={{ backgroundColor: theme.colors.surface, padding: 16, borderBottomWidth: 1, borderBottomColor: theme.colors.outline }}>
         <View style={{ alignItems: 'center', marginBottom: 8 }}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#333' }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
             Soru {currentQuestionIndex + 1} / {totalQuestions}
           </Text>
         </View>
-        <ProgressBar progress={(currentQuestionIndex + 1) / totalQuestions} color="#1890ff" />
+        <ProgressBar progress={(currentQuestionIndex + 1) / totalQuestions} color={theme.colors.primary} />
       </View>
 
       <ScrollView style={{ flex: 1, paddingHorizontal: 16 }} contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}>
@@ -147,7 +148,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
           <Card style={{marginBottom: 10}}>
             <Card.Content>
               <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                <Text style={{ fontSize: 18, color: '#333', lineHeight: 26, textAlign: 'center', fontWeight: '500' }}>
+                <Text style={{ fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500' }}>
                   {currentQuestion.text}
                 </Text>
               </View>
@@ -157,7 +158,7 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
           <Card>
             <Card.Title
               title="Cevap Seçenekleri"
-              left={() => <ProgressBar progress={0.8} color="#52c41a" />}
+              left={() => <ProgressBar progress={0.8} color={theme.colors.secondary} />}
             />
             <Card.Content>
               {answerOptions.map((option) => (
@@ -166,10 +167,10 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
                   style={{
                     paddingVertical: 15,
                     borderBottomWidth: 1,
-                    borderBottomColor: '#f0f0f0',
+                    borderBottomColor: theme.colors.outline,
                     marginBottom: 10,
                     backgroundColor: answers.find(a => a.questionId === currentQuestion.id)?.value === option.value
-                      ? '#e6f7ff'
+                      ? theme.colors.primaryContainer
                       : 'transparent',
                     borderRadius: 8,
                     paddingHorizontal: 15
@@ -179,7 +180,6 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{
                       fontSize: 16,
-                      color: '#333',
                       fontWeight: '500',
                       flex: 1
                     }}>
@@ -218,8 +218,8 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
           <View style={{ height: 10 }} />
         </ScrollView>
 
-      <View style={{ backgroundColor: '#fff7e6', padding: 15, borderTopWidth: 1, borderTopColor: '#ffe58f' }}>
-        <Text style={{ fontSize: 14, color: '#faad14', textAlign: 'center' }}>
+      <View style={{ backgroundColor: theme.colors.tertiaryContainer, padding: 15, borderTopWidth: 1, borderTopColor: theme.colors.tertiary }}>
+        <Text style={{ fontSize: 14, textAlign: 'center' }}>
           Bu test sadece bilgilendirme amaçlıdır. Tıbbi tanı yerine geçmez.
         </Text>
       </View>

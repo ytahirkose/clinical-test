@@ -39,7 +39,7 @@ export interface TestType {
 }
 
 export interface UserSelection {
-  age: string;
+  age: number;
   testType?: string;
   relationship?: string;
 }
