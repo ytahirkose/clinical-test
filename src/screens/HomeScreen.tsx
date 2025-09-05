@@ -3,7 +3,8 @@ import { View, Text, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, Button, useTheme } from 'react-native-paper';
+import { Card, useTheme } from 'react-native-paper';
+import NativeButton from '../components/NativeButton';
 import { useTranslation } from 'react-i18next';
 import AdBanner from '../components/AdBanner';
 
@@ -69,13 +70,13 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </Card.Content>
         </Card>
 
-        <Button
-          mode="contained"
+        <NativeButton
+          variant="contained"
           onPress={handleStartTest}
           style={{ marginBottom: 16 }}
         >
           {t('home.startTest')}
-        </Button>
+        </NativeButton>
 
         <AdBanner position="bottom" screen="home" />
       </ScrollView>

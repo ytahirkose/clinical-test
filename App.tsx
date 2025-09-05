@@ -8,7 +8,14 @@ import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 
-import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
+// AdMob is optional in Expo Go; require dynamically to avoid crashes
+let mobileAds: any = null;
+let MaxAdContentRating: any = null;
+try {
+  const admob = require('react-native-google-mobile-ads');
+  mobileAds = admob.default;
+  MaxAdContentRating = admob.MaxAdContentRating;
+} catch {}
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import './src/config/i18n';
@@ -38,6 +45,8 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 const CombinedDefaultTheme = {
   ...MD3LightTheme,
   ...LightTheme,
+  // Preserve MD3 fonts to support typography variants like labelLarge used by Paper v5 components
+  fonts: MD3LightTheme.fonts,
   colors: {
     ...MD3LightTheme.colors,
     ...LightTheme.colors,
@@ -67,7 +76,7 @@ export default function App() {
 
     checkFirstLaunch();
 
-    // AdMob konfigürasyonu ve başlatma
+    // AdMob konfigürasyonu ve başlatma (sadece native build'de)
     if (mobileAds && MaxAdContentRating) {
       try {
         mobileAds()
@@ -81,6 +90,8 @@ export default function App() {
       } catch (error) {
         console.log('AdMob initialization failed:', error);
       }
+    } else {
+      console.log('AdMob not available in Expo Go');
     }
 
     // Ekran yönlendirmesi kilitleme
@@ -145,7 +156,7 @@ export default function App() {
               />
             </Stack.Navigator>
           </NavigationContainer>
-          
+
           {/* LanguageSelector'ı PaperProvider içinde, NavigationContainer dışında */}
           <LanguageSelector
             visible={showLanguageSelector}

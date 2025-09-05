@@ -4,7 +4,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Card, Button, ProgressBar, Checkbox, useTheme} from 'react-native-paper';
+import {Card, ProgressBar, Checkbox, useTheme} from 'react-native-paper';
+import NativeButton from '../components/NativeButton';
 import { createTestTypes } from '../data/testTypes';
 import { Answer, TestType } from '../types';
 import { calculateScore } from '../utils/scoreCalculator';
@@ -197,27 +198,30 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
           </Card>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, marginTop: 10 }}>
-            <Button
+            <NativeButton
+              variant="outlined"
               onPress={handlePrevious}
               disabled={currentQuestionIndex === 0}
               style={{ flex: 1, marginRight: 10 }}
             >
               {t('test.previous')}
-            </Button>
+            </NativeButton>
 
-            <Button
+            <NativeButton
+              variant="outlined"
               onPress={handleSkip}
               style={{ flex: 1, marginHorizontal: 10 }}
             >
               {t('test.skip')}
-            </Button>
+            </NativeButton>
 
-            <Button
+            <NativeButton
+              variant="contained"
               onPress={completeTest}
               style={{ flex: 1, marginLeft: 10 }}
             >
               {t('test.finish')}
-            </Button>
+            </NativeButton>
           </View>
 
           <View style={{ height: 10 }} />

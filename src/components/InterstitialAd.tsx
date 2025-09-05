@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-import { InterstitialAd, AdEventType } from 'react-native-google-mobile-ads';
+// Expo Go için AdMob mock'u
+let InterstitialAd: any = null;
+let AdEventType: any = null;
+
+try {
+  const admobModule = require('react-native-google-mobile-ads');
+  InterstitialAd = admobModule.InterstitialAd;
+  AdEventType = admobModule.AdEventType;
+} catch (error) {
+  console.log('AdMob not available in Expo Go');
+}
+
 import { getPlatformAdConfig, CONTENT_FILTERING_KEYWORDS } from '../config/ads';
 
 interface InterstitialAdProps {
@@ -18,8 +29,8 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [interstitial, setInterstitial] = useState<InterstitialAd | null>(null);
 
-  // Web platformunda reklam gösterme
-  if (Platform.OS === 'web') {
+  // Expo Go'da reklam gösterme
+  if (!InterstitialAd) {
     return null;
   }
 
@@ -27,7 +38,7 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
 
     const adConfig = getPlatformAdConfig();
     const adUnitId = adConfig.interstitial;
-    
+
     const newInterstitial = InterstitialAd.createForAdRequest(adUnitId, {
       requestNonPersonalizedAdsOnly: true,
       keywords: CONTENT_FILTERING_KEYWORDS,
@@ -63,10 +74,10 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   }, [onAdClosed, onAdLoaded, onAdFailedToLoad]);
 
   const showAd = () => {
-    if (Platform.OS === 'web') {
+    if (!InterstitialAd) {
       return false;
     }
-    
+
     if (interstitial && loaded) {
       interstitial.show();
       return true;
@@ -79,6 +90,75 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
 
   // Component render etmez, sadece reklam yönetimi yapar
   return null;
+};
+
+// Simple singleton helper to show interstitial on demand (e.g., Retake)
+let singletonInterstitial: any = null;
+let singletonLoaded = false;
+
+export const showRetakeInterstitial = async (): Promise<boolean> => {
+  // If module not available (Expo Go), do nothing
+  if (!InterstitialAd || !AdEventType) {
+    return false;
+  }
+
+  const { interstitial: unitId } = getPlatformAdConfig();
+
+  if (!singletonInterstitial) {
+    singletonInterstitial = InterstitialAd.createForAdRequest(unitId, {
+      requestNonPersonalizedAdsOnly: true,
+      keywords: CONTENT_FILTERING_KEYWORDS,
+    });
+
+    singletonInterstitial.addAdEventListener(AdEventType.LOADED, () => {
+      singletonLoaded = true;
+    });
+
+    singletonInterstitial.addAdEventListener(AdEventType.ERROR, () => {
+      singletonLoaded = false;
+    });
+
+    // Preload
+    try { singletonInterstitial.load(); } catch {}
+  }
+
+  // If already loaded, show immediately
+  if (singletonLoaded) {
+    try {
+      await singletonInterstitial.show();
+      singletonLoaded = false; // Will need reload next time
+      // Preload next
+      try { singletonInterstitial.load(); } catch {}
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Not loaded yet: try a short wait for load, else fail fast
+  const waitFor = (ms: number) => new Promise(res => setTimeout(res, ms));
+  // Trigger load just in case
+  try { singletonInterstitial.load(); } catch {}
+  const maxWaitMs = 1500;
+  const intervalMs = 100;
+  let waited = 0;
+  while (!singletonLoaded && waited < maxWaitMs) {
+    await waitFor(intervalMs);
+    waited += intervalMs;
+  }
+
+  if (singletonLoaded) {
+    try {
+      await singletonInterstitial.show();
+      singletonLoaded = false;
+      try { singletonInterstitial.load(); } catch {}
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
 };
 
 export default InterstitialAdComponent;

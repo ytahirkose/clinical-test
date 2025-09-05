@@ -27,16 +27,16 @@ export const ADMOB_CONFIG = {
   // Production IDs (Replace with your real AdMob IDs)
   production: {
     android: {
-      appId: 'ca-app-pub-XXXXXXXXXXXX~YYYYYYYYYY', // TODO: Replace with real Android App ID
-      banner: 'ca-app-pub-XXXXXXXXXXXX/YYYYYYYYYY', // TODO: Replace with real Banner ID
-      interstitial: 'ca-app-pub-XXXXXXXXXXXX/ZZZZZZZZZZ', // TODO: Replace with real Interstitial ID
-      rewarded: 'ca-app-pub-XXXXXXXXXXXX/WWWWWWWWWW', // TODO: Replace with real Rewarded ID
+      appId: 'ca-app-pub-2210682238674465~1739007060',
+      banner: 'ca-app-pub-2210682238674465/5434396058',
+      interstitial: 'ca-app-pub-2210682238674465/6422135510',
+      rewarded: 'ca-app-pub-2210682238674465/5027201944',
     },
     ios: {
-      appId: 'ca-app-pub-XXXXXXXXXXXX~ZZZZZZZZZZ', // TODO: Replace with real iOS App ID
-      banner: 'ca-app-pub-XXXXXXXXXXXX/AAAAAAAAAA', // TODO: Replace with real Banner ID
-      interstitial: 'ca-app-pub-XXXXXXXXXXXX/BBBBBBBBBB', // TODO: Replace with real Interstitial ID
-      rewarded: 'ca-app-pub-XXXXXXXXXXXX/CCCCCCCCCC', // TODO: Replace with real Rewarded ID
+      appId: 'ca-app-pub-2210682238674465~1686722737',
+      banner: 'ca-app-pub-2210682238674465/5434396058',
+      interstitial: 'ca-app-pub-2210682238674465/6515287246',
+      rewarded: 'ca-app-pub-2210682238674465/5027201944',
     },
   },
 };
@@ -72,7 +72,7 @@ export const BANNER_SIZES = {
 // Content filtering keywords for non-personalized ads
 export const CONTENT_FILTERING_KEYWORDS = [
   'health',
-  'medical', 
+  'medical',
   'education',
   'family',
   'children',

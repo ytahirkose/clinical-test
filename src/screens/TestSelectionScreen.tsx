@@ -4,7 +4,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, Button, TextInput, useTheme } from 'react-native-paper';
+import { Card, TextInput, useTheme } from 'react-native-paper';
+import NativeButton from '../components/NativeButton';
 import { useTranslation } from 'react-i18next';
 import { createTestTypes } from '../data/testTypes';
 import { UserSelection } from '../types';
@@ -108,21 +109,21 @@ const TestSelectionScreen: React.FC<Props> = ({ navigation, route }) => {
           </Card.Content>
         </Card> : null}
 
-        <Button
-          mode="contained"
+        <NativeButton
+          variant="contained"
           onPress={handleContinue}
           disabled={!age}
           style={{ marginBottom: 16 }}
         >
           {t('common.continue')}
-        </Button>
+        </NativeButton>
 
-        <Button
-          mode="outlined"
+        <NativeButton
+          variant="outlined"
           onPress={() => navigation.goBack()}
         >
           {t('common.back')}
-        </Button>
+        </NativeButton>
       </ScrollView>
     </SafeAreaView>
   );

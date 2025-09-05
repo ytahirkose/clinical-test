@@ -4,7 +4,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Card, Button, Icon, MD3Colors, useTheme} from 'react-native-paper';
+import {Card, Icon, MD3Colors, useTheme} from 'react-native-paper';
+import NativeButton from '../components/NativeButton';
 import { createTestTypes } from '../data/testTypes';
 import { useTranslation } from 'react-i18next';
 
@@ -145,21 +146,21 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
           </Card.Content>
         </Card>
 
-        <Button
-          mode="contained"
+        <NativeButton
+          variant="contained"
           onPress={handleAccept}
           disabled={!accepted}
           style={{ marginBottom: 16 }}
         >
           {t('disclaimer.continue')}
-        </Button>
+        </NativeButton>
 
-        <Button
-          mode="outlined"
+        <NativeButton
+          variant="outlined"
           onPress={() => navigation.goBack()}
         >
           {t('disclaimer.goBack')}
-        </Button>
+        </NativeButton>
       </ScrollView>
     </SafeAreaView>
   );

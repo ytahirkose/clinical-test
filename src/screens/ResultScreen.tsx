@@ -4,10 +4,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, Button, useTheme } from 'react-native-paper';
+import { Card, useTheme } from 'react-native-paper';
+import NativeButton from '../components/NativeButton';
 import { calculateScore, getCategoryScores, checkDSM5Criteria } from '../utils/scoreCalculator';
 import { Answer, TestType, UserSelection } from '../types';
 import AdBanner from '../components/AdBanner';
+import { showRetakeInterstitial } from '../components/InterstitialAd';
 import { useTranslation } from 'react-i18next';
 
 type ResultScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Result'>;
@@ -144,16 +146,29 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
         <AdBanner position="bottom" screen="result" />
 
         <View style={{ marginTop: 20, marginBottom: 20 }}>
-          <Button
-            mode="outlined"
-            onPress={() => navigation.navigate('TestSelection')}
+          <NativeButton
+            variant="outlined"
+            onPress={async () => {
+              // Try to show interstitial; navigate after close or immediately if not shown
+              try {
+                const shown = await showRetakeInterstitial();
+                if (!shown) {
+                  navigation.navigate('TestSelection');
+                } else {
+                  // When shown, we navigate after a small delay to give CLOSE animation time
+                  setTimeout(() => navigation.navigate('TestSelection'), 400);
+                }
+              } catch {
+                navigation.navigate('TestSelection');
+              }
+            }}
           >
             {t('result.retake')}
-          </Button>
+          </NativeButton>
         </View>
 
         {/* Alt kısımda ek reklam */}
-        <AdBanner position="bottom" screen="result" />
+        <AdBanner position="bottom" screen="result" index={1} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Modal } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LanguageOption {
   code: string;
@@ -41,16 +42,22 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ visible, onLanguage
   }, [i18n.language]);
 
   const handleLanguageSelect = async (languageCode: string) => {
-    setSelectedLanguage(languageCode);
-    onLanguageSelect(languageCode);
+    try {
+      setSelectedLanguage(languageCode);
+      await i18n.changeLanguage(languageCode);
+      await AsyncStorage.setItem('@language', languageCode);
+      onLanguageSelect(languageCode);
+    } catch (e) {
+      onLanguageSelect(languageCode);
+    }
   };
 
   // Görünür değilse hiçbir şey render etme
-  if (!visible) return null;
+  // Modal ile yönetilecek
 
-  // Tüm platformlar için basit View kullan
   return (
-    <View style={[styles.container, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}>
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={() => onLanguageSelect(selectedLanguage)}>
+      <View style={[styles.container, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}>
       <View style={[styles.modalContent, { backgroundColor: theme.colors.surface }]}>
         <Text style={[styles.title, { color: theme.colors.onSurface }]}>
           {t('languageSelector.title')}
@@ -58,7 +65,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ visible, onLanguage
         <Text style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>
           {t('languageSelector.subtitle')}
         </Text>
-        
+
         <ScrollView style={styles.languageList} showsVerticalScrollIndicator={false}>
           {languages.map((language) => (
             <TouchableOpacity
@@ -105,7 +112,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ visible, onLanguage
             </TouchableOpacity>
           ))}
         </ScrollView>
-        
+
         <TouchableOpacity
           style={[styles.continueButton, { backgroundColor: theme.colors.primary }]}
           onPress={() => onLanguageSelect(selectedLanguage)}
@@ -115,7 +122,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ visible, onLanguage
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+      </View>
+    </Modal>
   );
 };
 

@@ -2,23 +2,37 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+// Expo Go için AdMob mock'u
+let BannerAd: any = null;
+let BannerAdSize: any = null;
+let TestIds: any = null;
+
+try {
+  const admobModule = require('react-native-google-mobile-ads');
+  BannerAd = admobModule.BannerAd;
+  BannerAdSize = admobModule.BannerAdSize;
+  TestIds = admobModule.TestIds;
+} catch (error) {
+  console.log('AdMob not available in Expo Go');
+}
 
 interface AdBannerProps {
   size?: any; // BannerAdSize yerine any kullan
   position?: 'top' | 'bottom';
   screen?: 'home' | 'result';
+  index?: number; // same position multiple banners
 }
 
 const AdBanner: React.FC<AdBannerProps> = ({
   size = BannerAdSize?.BANNER,
   position = 'bottom',
-  screen = 'home'
+  screen = 'home',
+  index = 0
 }) => {
   const { t } = useTranslation();
 
-  // Web platform için placeholder, native için gerçek reklam
-  if (typeof BannerAd === 'undefined') {
+  // Expo Go için placeholder, native için gerçek reklam
+  if (!BannerAd) {
     return (
       <View style={[
         styles.container,
@@ -54,7 +68,12 @@ const AdBanner: React.FC<AdBannerProps> = ({
     } else if (screen === 'result' && position === 'top') {
       adUnitId = 'ca-app-pub-2210682238674465/9844683857';
     } else if (screen === 'result' && position === 'bottom') {
-      adUnitId = 'ca-app-pub-2210682238674465/5027201944';
+      // There are two bottom banners on Result screen. Index 0 => first, 1 => second.
+      if (index === 1) {
+        adUnitId = 'ca-app-pub-2210682238674465/4554520077'; // NEW third banner id (second bottom position)
+      } else {
+        adUnitId = 'ca-app-pub-2210682238674465/5027201944';
+      }
     } else {
       adUnitId = 'ca-app-pub-2210682238674465/5434396058';
     }
