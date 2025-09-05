@@ -10,7 +10,6 @@ try {
   InterstitialAd = admobModule.InterstitialAd;
   AdEventType = admobModule.AdEventType;
 } catch (error) {
-  console.log('AdMob not available in Expo Go');
 }
 
 import { getPlatformAdConfig, CONTENT_FILTERING_KEYWORDS } from '../config/ads';

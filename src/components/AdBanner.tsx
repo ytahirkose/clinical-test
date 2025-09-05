@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-// Expo Go için AdMob mock'u
 let BannerAd: any = null;
 let BannerAdSize: any = null;
 let TestIds: any = null;
@@ -13,14 +12,13 @@ try {
   BannerAdSize = admobModule.BannerAdSize;
   TestIds = admobModule.TestIds;
 } catch (error) {
-  console.log('AdMob not available in Expo Go');
 }
 
 interface AdBannerProps {
-  size?: any; // BannerAdSize yerine any kullan
+  size?: any;
   position?: 'top' | 'bottom';
   screen?: 'home' | 'result';
-  index?: number; // same position multiple banners
+  index?: number;
 }
 
 const AdBanner: React.FC<AdBannerProps> = ({
@@ -31,7 +29,6 @@ const AdBanner: React.FC<AdBannerProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // Expo Go için placeholder, native için gerçek reklam
   if (!BannerAd) {
     return (
       <View style={[
@@ -47,10 +44,8 @@ const AdBanner: React.FC<AdBannerProps> = ({
     );
   }
 
-  // Test modunda test ID'leri, preview ve production'da gerçek ID'ler
   let adUnitId;
   if (__DEV__ && process.env.EXPO_PUBLIC_USE_TEST_ADS !== 'true' && TestIds) {
-    // Sadece development modunda test ID'leri (preview hariç)
     switch (position) {
       case 'top':
         adUnitId = TestIds.BANNER;
@@ -62,15 +57,13 @@ const AdBanner: React.FC<AdBannerProps> = ({
         adUnitId = TestIds.BANNER;
     }
   } else {
-    // Production'da basit ID kullanımı
     if (screen === 'home' && position === 'bottom') {
       adUnitId = 'ca-app-pub-2210682238674465/5434396058';
     } else if (screen === 'result' && position === 'top') {
       adUnitId = 'ca-app-pub-2210682238674465/9844683857';
     } else if (screen === 'result' && position === 'bottom') {
-      // There are two bottom banners on Result screen. Index 0 => first, 1 => second.
       if (index === 1) {
-        adUnitId = 'ca-app-pub-2210682238674465/4554520077'; // NEW third banner id (second bottom position)
+        adUnitId = 'ca-app-pub-2210682238674465/4554520077';
       } else {
         adUnitId = 'ca-app-pub-2210682238674465/5027201944';
       }
@@ -79,7 +72,6 @@ const AdBanner: React.FC<AdBannerProps> = ({
     }
   }
 
-  // BannerAd yoksa veya adUnitId yoksa placeholder göster
   if (!BannerAd || !adUnitId) {
     return (
       <View style={[

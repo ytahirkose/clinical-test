@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ADHD Detection",
+    "description": "Professional ADHD screening tool with validated clinical scales",
+    "ios": {
+      "infoPlist": {
+        "CFBundleDisplayName": "ADHD Detection"
+      }
+    }
+  }
+}

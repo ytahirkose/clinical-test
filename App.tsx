@@ -8,7 +8,6 @@ import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 
-// AdMob is optional in Expo Go; require dynamically to avoid crashes
 let mobileAds: any = null;
 let MaxAdContentRating: any = null;
 try {
@@ -24,7 +23,6 @@ import TestSelectionScreen from './src/screens/TestSelectionScreen';
 import DisclaimerScreen from './src/screens/DisclaimerScreen';
 import TestScreen from './src/screens/TestScreen';
 import ResultScreen from './src/screens/ResultScreen';
-import LanguageSelector from './src/components/LanguageSelector';
 import { UserSelection, TestType } from './src/types';
 import { useTranslation } from 'react-i18next';
 
@@ -36,7 +34,6 @@ export type RootStackParamList = {
   Result: { score: number; answers: number[]; testType: TestType; userSelection: UserSelection };
 };
 
-// Web platformunda uyumlu tema konfigürasyonu
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
   reactNavigationDark: NavigationDarkTheme,
@@ -45,7 +42,6 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 const CombinedDefaultTheme = {
   ...MD3LightTheme,
   ...LightTheme,
-  // Preserve MD3 fonts to support typography variants like labelLarge used by Paper v5 components
   fonts: MD3LightTheme.fonts,
   colors: {
     ...MD3LightTheme.colors,
@@ -56,27 +52,25 @@ const CombinedDefaultTheme = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
-  const [showLanguageSelector, setShowLanguageSelector] = useState(true);
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    // İlk açılışta dil seçimi kontrolü
     const checkFirstLaunch = async () => {
       try {
         const hasSelectedLanguage = await AsyncStorage.getItem('@language');
         if (hasSelectedLanguage) {
-          setShowLanguageSelector(false);
+          setIsFirstLaunch(false);
+        } else {
           setIsFirstLaunch(false);
         }
       } catch (error) {
-        console.error('Error checking first launch:', error);
+        setIsFirstLaunch(false);
       }
     };
 
     checkFirstLaunch();
 
-    // AdMob konfigürasyonu ve başlatma (sadece native build'de)
     if (mobileAds && MaxAdContentRating) {
       try {
         mobileAds()
@@ -84,33 +78,25 @@ export default function App() {
             maxAdContentRating: MaxAdContentRating.PG,
             tagForChildDirectedTreatment: false,
             tagForUnderAgeOfConsent: false,
-            testDeviceIdentifiers: ['EMULATOR', 'YOUR_DEVICE_ID'] // Gerçek cihaz ID'si ekle
+            testDeviceIdentifiers: ['EMULATOR', 'YOUR_DEVICE_ID']
           })
           .then(() => mobileAds().initialize());
       } catch (error) {
-        console.log('AdMob initialization failed:', error);
       }
     } else {
-      console.log('AdMob not available in Expo Go');
     }
 
-    // Ekran yönlendirmesi kilitleme
     if (Platform.OS !== 'web') {
       const lockOrientation = async () => {
         try {
           await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
         } catch (error) {
-          // Orientation lock failed silently
         }
       };
       lockOrientation();
     }
   }, []);
 
-  const handleLanguageSelect = (language: string) => {
-    setShowLanguageSelector(false);
-    setIsFirstLaunch(false);
-  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -157,11 +143,6 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
 
-          {/* LanguageSelector'ı PaperProvider içinde, NavigationContainer dışında */}
-          <LanguageSelector
-            visible={showLanguageSelector}
-            onLanguageSelect={handleLanguageSelect}
-          />
         </PaperProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

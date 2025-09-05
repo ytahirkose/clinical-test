@@ -21,16 +21,34 @@ const resources = {
 
 const LANGUAGE_KEY = '@language';
 
+const getDeviceLanguage = (): string => {
+  try {
+    let locale: string | undefined;
+    if (typeof navigator !== 'undefined' && navigator && navigator.language) {
+      locale = navigator.language as string;
+    }
+    if (!locale && typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
+      locale = Intl.DateTimeFormat().resolvedOptions().locale;
+    }
+    const code = (locale || 'en').toLowerCase().split('-')[0];
+    const supported = Object.keys(resources);
+    return supported.includes(code) ? code : 'en';
+  } catch {
+    return 'en';
+  }
+};
+
 const detectLanguage = async (): Promise<string> => {
   try {
     const savedLanguage = await AsyncStorage.getItem(LANGUAGE_KEY);
     if (savedLanguage && resources[savedLanguage as keyof typeof resources]) {
       return savedLanguage;
     }
-    return 'en'; // Varsayılan dil İngilizce
+    const detected = getDeviceLanguage();
+    await AsyncStorage.setItem(LANGUAGE_KEY, detected);
+    return detected;
   } catch (error) {
-    console.error('Dil algılama hatası:', error);
-    return 'en'; // Varsayılan dil İngilizce
+    return 'en';
   }
 };
 
@@ -39,7 +57,6 @@ export const changeLanguage = async (languageCode: string) => {
     await AsyncStorage.setItem(LANGUAGE_KEY, languageCode);
     await i18n.changeLanguage(languageCode);
   } catch (error) {
-    console.error('Dil değiştirme hatası:', error);
   }
 };
 
@@ -47,7 +64,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // Varsayılan dil İngilizce
+    lng: 'en',
     fallbackLng: 'en',
     compatibilityJSON: 'v3',
     interpolation: {
@@ -55,7 +72,6 @@ i18n
     },
   });
 
-// Uygulama başladığında kaydedilmiş dili yükle
 detectLanguage().then((language) => {
   i18n.changeLanguage(language);
 });

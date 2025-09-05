@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "DEHB Tespit",
+    "description": "Onaylı klinik ölçeklerle profesyonel DEHB tarama aracı",
+    "ios": {
+      "infoPlist": {
+        "CFBundleDisplayName": "DEHB Tespit"
+      }
+    }
+  }
+}
