@@ -25,7 +25,20 @@
         ],
         "UISupportedInterfaceOrientations~ipad": [
           "UIInterfaceOrientationPortrait"
-        ]
+        ],
+        "CFBundleDisplayName": "ADHD Detection",
+        "CFBundleDisplayName~tr": "DEHB Tespit",
+        "CFBundleDisplayName~ar": "كشف اضطراب فرط الحركة",
+        "CFBundleDisplayName~de": "ADHS-Erkennung",
+        "CFBundleDisplayName~es": "Detección de TDAH",
+        "CFBundleDisplayName~fr": "Détection TDAH",
+        "CFBundleDisplayName~hu": "ADHD Felismerés",
+        "CFBundleDisplayName~it": "Rilevamento ADHD",
+        "CFBundleDisplayName~nl": "ADHD Detectie",
+        "CFBundleDisplayName~pl": "Wykrywanie ADHD",
+        "CFBundleDisplayName~pt": "Detecção de TDAH",
+        "CFBundleDisplayName~ru": "Обнаружение СДВГ",
+        "CFBundleDisplayName~zh": "多动症检测"
       }
     },
     "android": {
@@ -35,7 +48,20 @@
         "INTERNET",
         "ACCESS_NETWORK_STATE"
       ],
-      "allowBackup": false
+      "allowBackup": false,
+      "appName": "ADHD Detection",
+      "appName~tr": "DEHB Tespit",
+      "appName~ar": "كشف اضطراب فرط الحركة",
+      "appName~de": "ADHS-Erkennung",
+      "appName~es": "Detección de TDAH",
+      "appName~fr": "Détection TDAH",
+      "appName~hu": "ADHD Felismerés",
+      "appName~it": "Rilevamento ADHD",
+      "appName~nl": "ADHD Detectie",
+      "appName~pl": "Wykrywanie ADHD",
+      "appName~pt": "Detecção de TDAH",
+      "appName~ru": "Обнаружение СДВГ",
+      "appName~zh": "多动症检测"
     },
     "web": {
       "favicon": "./assets/icon.png"
