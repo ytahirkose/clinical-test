@@ -6,10 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "locales": {
-      "tr": "./locales/tr.json",
-      "en": "./locales/en.json"
-    },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -49,19 +45,19 @@
         "ACCESS_NETWORK_STATE"
       ],
       "allowBackup": false,
-      "appName": "ADHD Detection",
-      "appName~tr": "DEHB Tespit",
-      "appName~ar": "كشف اضطراب فرط الحركة",
-      "appName~de": "ADHS-Erkennung",
-      "appName~es": "Detección de TDAH",
-      "appName~fr": "Détection TDAH",
-      "appName~hu": "ADHD Felismerés",
-      "appName~it": "Rilevamento ADHD",
-      "appName~nl": "ADHD Detectie",
-      "appName~pl": "Wykrywanie ADHD",
-      "appName~pt": "Detecção de TDAH",
-      "appName~ru": "Обнаружение СДВГ",
-      "appName~zh": "多动症检测"
+      "name": "ADHD Detection",
+      "name~tr": "DEHB Tespit",
+      "name~ar": "كشف اضطراب فرط الحركة",
+      "name~de": "ADHS-Erkennung",
+      "name~es": "Detección de TDAH",
+      "name~fr": "Détection TDAH",
+      "name~hu": "ADHD Felismerés",
+      "name~it": "Rilevamento ADHD",
+      "name~nl": "ADHD Detectie",
+      "name~pl": "Wykrywanie ADHD",
+      "name~pt": "Detecção de TDAH",
+      "name~ru": "Обнаружение СДВГ",
+      "name~zh": "多动症检测"
     },
     "web": {
       "favicon": "./assets/icon.png"
