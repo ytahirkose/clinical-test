@@ -12,7 +12,17 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.dehb.detection"
+      "bundleIdentifier": "com.dehb.detection",
+      "buildNumber": "1"
+    },
+    "android": {
+      "package": "com.dehb.detection",
+      "versionCode": 1,
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "allowBackup": false
     },
     "web": {
       "favicon": "./assets/icon.png"
