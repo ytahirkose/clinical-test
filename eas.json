@@ -35,6 +35,11 @@
         "distribution": "store",
         "buildConfiguration": "Release"
       }
+    },
+    "ios-simulator": {
+      "ios": {
+        "simulator": true
+      }
     }
   },
   "submit": {

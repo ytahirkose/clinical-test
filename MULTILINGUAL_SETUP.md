@@ -38,16 +38,6 @@ npm install i18next react-i18next @react-native-async-storage/async-storage
 ```javascript
 module.exports = {
   presets: ['babel-preset-expo'],
-  plugins: [
-    [
-      'module-resolver',
-      {
-        alias: {
-          'react-native-google-mobile-ads': './src/utils/adsStub.js',
-        },
-      },
-    ],
-  ],
 };
 ```
 
