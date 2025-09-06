@@ -66,11 +66,12 @@ ios/*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+*.xcworkspace
 
 # CocoaPods (çoğu ekip Pods/ klasörünü commit etmez)
 ios/Pods/
 # Podfile.lock genelde COMMIT edilir. Eğer etmeyeceksen aç:
-# ios/Podfile.lock
+ios/Podfile.lock
 
 # iOS kimlik/sertifika/provizyon (asla repoya koyma)
 *.mobileprovision
