@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: '我在组织和安排任务及活动方面有困难',
     asrs_2: '我在注意细节方面有困难',
     asrs_3: '我在直接听人说话方面有困难',
@@ -227,7 +226,6 @@ export default {
     asrs_17: '我打断别人',
     asrs_18: '我行动前不思考',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: '您的孩子在注意方面有困难吗？',
     vanderbilt_2: '您的孩子在注意细节方面有困难吗？',
     vanderbilt_3: '您的孩子在完成任务方面有困难吗？',

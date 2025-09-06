@@ -88,16 +88,13 @@ export const checkDSM5Criteria = (answers: Answer[], testType: TestType) => {
     .filter(a => hyperactivityQuestions.find(q => q.id === a.questionId))
     .reduce((sum, a) => sum + a.value, 0);
 
-  // DSM-5 thresholds vary by test type
   let attentionThreshold: number;
   let hyperactivityThreshold: number;
 
   if (testType.id.startsWith('asrs')) {
-    // ASRS: 6+ symptoms in each domain (0-4 scale, threshold 2+ = moderate)
     attentionThreshold = 12; // 6 questions × 2 points
     hyperactivityThreshold = 12; // 6 questions × 2 points
   } else if (testType.id.startsWith('vanderbilt')) {
-    // Vanderbilt: 6+ symptoms in each domain (0-3 scale, threshold 2+ = often)
     attentionThreshold = 12; // 6 questions × 2 points
     hyperactivityThreshold = 12; // 6 questions × 2 points
   } else {

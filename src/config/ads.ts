@@ -1,15 +1,12 @@
 import { Platform } from 'react-native';
 
-// Test IDs for development (expo-ads-admob compatible)
 export const TEST_IDS = {
   BANNER: 'ca-app-pub-3940256099942544/6300978111',
   INTERSTITIAL: 'ca-app-pub-3940256099942544/1033173712',
   REWARDED: 'ca-app-pub-3940256099942544/5224354917'
 };
 
-// AdMob Configuration
 export const ADMOB_CONFIG = {
-  // Test IDs (Development)
   test: {
     android: {
       appId: 'ca-app-pub-3940256099942544~3347511713',
@@ -24,7 +21,6 @@ export const ADMOB_CONFIG = {
       rewarded: TEST_IDS.REWARDED,
     },
   },
-  // Production IDs (Replace with your real AdMob IDs)
   production: {
     android: {
       appId: 'ca-app-pub-2210682238674465~1739007060',
@@ -41,7 +37,6 @@ export const ADMOB_CONFIG = {
   },
 };
 
-// Get current environment
 export const getAdMobConfig = () => {
   if (__DEV__) {
     return ADMOB_CONFIG.test;
@@ -49,7 +44,6 @@ export const getAdMobConfig = () => {
   return ADMOB_CONFIG.production;
 };
 
-// Get platform-specific config
 export const getPlatformAdConfig = () => {
   const config = getAdMobConfig();
   if (Platform.OS === 'ios') {
@@ -58,7 +52,6 @@ export const getPlatformAdConfig = () => {
   return config.android;
 };
 
-// Banner sizes for expo-ads-admob
 export const BANNER_SIZES = {
   BANNER: 'BANNER',
   LARGE_BANNER: 'LARGE_BANNER',
@@ -69,7 +62,6 @@ export const BANNER_SIZES = {
   ANCHORED_ADAPTIVE_BANNER: 'ANCHORED_ADAPTIVE_BANNER',
 };
 
-// Content filtering keywords for non-personalized ads
 export const CONTENT_FILTERING_KEYWORDS = [
   'health',
   'medical',
@@ -83,7 +75,6 @@ export const CONTENT_FILTERING_KEYWORDS = [
   'development'
 ];
 
-// Ad request options for non-personalized ads
 export const AD_REQUEST_OPTIONS = {
   requestNonPersonalizedAdsOnly: true,
   keywords: CONTENT_FILTERING_KEYWORDS,
@@ -92,7 +83,6 @@ export const AD_REQUEST_OPTIONS = {
   tagForUnderAgeOfConsent: true
 };
 
-// Ad frequency control
 export const AD_FREQUENCY = {
   BANNER_MIN_INTERVAL: 30000, // 30 seconds
   INTERSTITIAL_MIN_INTERVAL: 300000, // 5 minutes

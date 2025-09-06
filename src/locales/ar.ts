@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: 'أواجه صعوبة في تنظيم المهام والأنشطة',
     asrs_2: 'أواجه صعوبة في الانتباه للتفاصيل',
     asrs_3: 'أواجه صعوبة في الاستماع عندما يتحدث إلي مباشرة',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'أقاطع الآخرين',
     asrs_18: 'أتصرف بدون تفكير',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: 'هل يواجه طفلك صعوبة في الانتباه؟',
     vanderbilt_2: 'هل يواجه طفلك صعوبة في الانتباه للتفاصيل؟',
     vanderbilt_3: 'هل يواجه طفلك صعوبة في إكمال المهام؟',

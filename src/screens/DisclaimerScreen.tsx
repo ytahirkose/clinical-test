@@ -34,7 +34,6 @@ const DisclaimerScreen: React.FC<Props> = ({ navigation, route }) => {
       if (selectedTest) {
         navigation.navigate('Test', { userSelection, testType: selectedTest });
       } else {
-        // Fallback: navigate to TestSelection if test type not found
         Alert.alert(t('common.error'), t('disclaimer.testTypeNotFound'));
         navigation.navigate('TestSelection');
       }

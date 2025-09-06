@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: 'Ik heb moeite met het organiseren van taken en activiteiten',
     asrs_2: 'Ik heb moeite met het letten op details',
     asrs_3: 'Ik heb moeite met luisteren wanneer er direct tegen mij wordt gesproken',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'Ik onderbreek anderen',
     asrs_18: 'Ik handel zonder na te denken',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: 'Heeft uw kind moeite met opletten?',
     vanderbilt_2: 'Heeft uw kind moeite met het letten op details?',
     vanderbilt_3: 'Heeft uw kind moeite met het voltooien van taken?',

@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: 'Ich habe Schwierigkeiten, Aufgaben und Aktivitäten zu organisieren',
     asrs_2: 'Ich habe Schwierigkeiten, auf Details zu achten',
     asrs_3: 'Ich habe Schwierigkeiten zuzuhören, wenn direkt mit mir gesprochen wird',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'Ich unterbreche andere',
     asrs_18: 'Ich handle ohne nachzudenken',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: 'Hat Ihr Kind Schwierigkeiten, aufmerksam zu sein?',
     vanderbilt_2: 'Hat Ihr Kind Schwierigkeiten, auf Details zu achten?',
     vanderbilt_3: 'Hat Ihr Kind Schwierigkeiten, Aufgaben zu erledigen?',

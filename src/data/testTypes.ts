@@ -14,7 +14,6 @@ import {
   vanderbiltAnswerOptions
 } from './questions';
 
-// Function to create test types dynamically
 export const createTestTypes = (t: (key: string) => string): TestType[] => [
 
   {
@@ -74,7 +73,6 @@ export const createRiskBands = (t: (key: string) => string) => ({
   }
 });
 
-// Keep old exports for backward compatibility
 export const asrsRiskBands = (t: (key: string) => string) => ({
   '0-16': t('testSelection.riskBands.asrs.negative'),
   '17+': t('testSelection.riskBands.asrs.positive')

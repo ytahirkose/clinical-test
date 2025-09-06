@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: 'Tengo dificultades para organizar tareas y actividades',
     asrs_2: 'Tengo dificultades para prestar atención a los detalles',
     asrs_3: 'Tengo dificultades para escuchar cuando se me habla directamente',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'Interrumpo a otros',
     asrs_18: 'Actúo sin pensar',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: '¿Su hijo tiene dificultades para prestar atención?',
     vanderbilt_2: '¿Su hijo tiene dificultades para prestar atención a los detalles?',
     vanderbilt_3: '¿Su hijo tiene dificultades para completar tareas?',

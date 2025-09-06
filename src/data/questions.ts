@@ -1,6 +1,5 @@
 import { Question } from '../types';
 
-// Dynamic question creation with translation function
 export const createAsrsQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
@@ -130,7 +129,6 @@ export const createAsrsQuestions = (t: (key: string) => string): Question[] => [
   }
 ];
 
-// ASRS Screener questions
 export const createAsrsScreenerQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
@@ -176,7 +174,6 @@ export const createAsrsScreenerQuestions = (t: (key: string) => string): Questio
   }
 ];
 
-// Vanderbilt Parent questions
 export const createVanderbiltParentQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
@@ -306,7 +303,6 @@ export const createVanderbiltParentQuestions = (t: (key: string) => string): Que
   }
 ];
 
-// Vanderbilt Teacher questions
 export const createVanderbiltTeacherQuestions = (t: (key: string) => string): Question[] => [
   {
     id: 1,
@@ -436,7 +432,6 @@ export const createVanderbiltTeacherQuestions = (t: (key: string) => string): Qu
   }
 ];
 
-// Answer options
 export const createAsrsAnswerOptions = (t: (key: string) => string) => [
   { value: 0, label: t('answers.never') },
   { value: 1, label: t('answers.rarely') },
@@ -452,4 +447,3 @@ export const createVanderbiltAnswerOptions = (t: (key: string) => string) => [
   { value: 3, label: t('answers.often') }
 ];
 
-// Old hardcoded exports removed - now using create functions

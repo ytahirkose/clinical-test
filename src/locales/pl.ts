@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: 'Mam trudności z organizowaniem zadań i działań',
     asrs_2: 'Mam trudności z zwracaniem uwagi na szczegóły',
     asrs_3: 'Mam trudności ze słuchaniem, gdy mówi się do mnie bezpośrednio',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'Przerywam innym',
     asrs_18: 'Działam bez myślenia',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: 'Czy Twoje dziecko ma trudności z zwracaniem uwagi?',
     vanderbilt_2: 'Czy Twoje dziecko ma trudności z zwracaniem uwagi na szczegóły?',
     vanderbilt_3: 'Czy Twoje dziecko ma trudności z ukończeniem zadań?',

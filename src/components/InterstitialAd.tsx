@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-// AdMob mock for Expo Go
 let InterstitialAd: any = null;
 let AdEventType: any = null;
 
@@ -28,7 +27,6 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [interstitial, setInterstitial] = useState<InterstitialAd | null>(null);
 
-  // No ads in Expo Go
   if (!InterstitialAd) {
     return null;
   }
@@ -51,7 +49,6 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
     const unsubscribeClosed = newInterstitial.addAdEventListener(AdEventType.CLOSED, () => {
       setLoaded(false);
       onAdClosed?.();
-      // Load new ad after current one closes
       newInterstitial.load();
     });
 
@@ -62,7 +59,6 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
 
     setInterstitial(newInterstitial);
 
-    // Load first ad
     newInterstitial.load();
 
     return () => {
@@ -81,22 +77,18 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
       interstitial.show();
       return true;
     } else {
-      // Load new ad if current one not loaded
       interstitial?.load();
       return false;
     }
   };
 
-  // Component doesn't render, only manages ads
   return null;
 };
 
-// Simple singleton helper to show interstitial on demand (e.g., Retake)
 let singletonInterstitial: any = null;
 let singletonLoaded = false;
 
 export const showRetakeInterstitial = async (): Promise<boolean> => {
-  // If module not available (Expo Go), do nothing
   if (!InterstitialAd || !AdEventType) {
     return false;
   }
@@ -117,16 +109,13 @@ export const showRetakeInterstitial = async (): Promise<boolean> => {
       singletonLoaded = false;
     });
 
-    // Preload
     try { singletonInterstitial.load(); } catch {}
   }
 
-  // If already loaded, show immediately
   if (singletonLoaded) {
     try {
       await singletonInterstitial.show();
       singletonLoaded = false; // Will need reload next time
-      // Preload next
       try { singletonInterstitial.load(); } catch {}
       return true;
     } catch {
@@ -134,9 +123,7 @@ export const showRetakeInterstitial = async (): Promise<boolean> => {
     }
   }
 
-  // Not loaded yet: try a short wait for load, else fail fast
   const waitFor = (ms: number) => new Promise(res => setTimeout(res, ms));
-  // Trigger load just in case
   try { singletonInterstitial.load(); } catch {}
   const maxWaitMs = 1500;
   const intervalMs = 100;

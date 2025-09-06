@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Original WHO/ASRS v1.1 text
     asrs_1: 'I have difficulty organizing tasks and activities',
     asrs_2: 'I have difficulty paying attention to details',
     asrs_3: 'I have difficulty listening when spoken to directly',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'I interrupt others',
     asrs_18: 'I act without thinking',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Original NICHQ text
     vanderbilt_1: 'Does your child have difficulty paying attention?',
     vanderbilt_2: 'Does your child have difficulty paying attention to details?',
     vanderbilt_3: 'Does your child have difficulty completing tasks?',

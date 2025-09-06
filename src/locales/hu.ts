@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Adult ADHD Scale - Translated from original WHO/ASRS v1.1
     asrs_1: 'Nehézséget tapasztalok a feladatok és tevékenységek szervezésében',
     asrs_2: 'Nehézséget tapasztalok a részletekre való odafigyelésben',
     asrs_3: 'Nehézséget tapasztalok a hallgatásban, amikor közvetlenül hozzám szólnak',
@@ -227,7 +226,6 @@ export default {
     asrs_17: 'Megszakítom a másokat',
     asrs_18: 'Gondolkodás nélkül cselekszem',
     
-    // NICHQ Vanderbilt Child ADHD Scale - Translated from original NICHQ
     vanderbilt_1: 'A gyermeke nehézséget tapasztal a figyelemben?',
     vanderbilt_2: 'A gyermeke nehézséget tapasztal a részletekre való odafigyelésben?',
     vanderbilt_3: 'A gyermeke nehézséget tapasztal a feladatok befejezésében?',

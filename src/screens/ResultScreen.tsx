@@ -26,7 +26,6 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
   const { score, answers, testType, userSelection } = route.params;
 
   const testAnswers: Answer[] = answers.map((value: number, index: number) => {
-    // Find the actual question ID from the test type
     const question = testType.questions[index];
     return {
       questionId: question ? question.id : index + 1, // Use actual question ID or fallback
@@ -149,13 +148,11 @@ const ResultScreen: React.FC<Props> = ({ navigation, route }) => {
           <NativeButton
             variant="outlined"
             onPress={async () => {
-              // Try to show interstitial; navigate after close or immediately if not shown
               try {
                 const shown = await showRetakeInterstitial();
                 if (!shown) {
                   navigation.navigate('TestSelection');
                 } else {
-                  // When shown, we navigate after a small delay to give CLOSE animation time
                   setTimeout(() => navigation.navigate('TestSelection'), 400);
                 }
               } catch {

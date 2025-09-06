@@ -207,7 +207,6 @@ export default {
     }
   },
   questions: {
-    // ASRS v1.1 Yetişkin DEHB Ölçeği
     asrs_1: 'Görevleri veya aktiviteleri organize etmekte zorluk yaşarım',
     asrs_2: 'Detaylara dikkat etmekte zorluk yaşarım',
     asrs_3: 'Konuşurken dinleyiciyi dinlemekte zorluk yaşarım',
@@ -226,7 +225,6 @@ export default {
     asrs_16: 'Sıramı beklemekte zorluk yaşarım',
     asrs_17: 'Başkalarının konuşmalarını keserim',
     asrs_18: 'Düşünmeden hareket ederim',
-    // NICHQ Vanderbilt Çocuk DEHB Ölçeği
     vanderbilt_1: 'Çocuğunuz dikkatini toplamakta zorluk yaşar mı?',
     vanderbilt_2: 'Çocuğunuz detaylara dikkat etmekte zorluk yaşar mı?',
     vanderbilt_3: 'Çocuğunuz görevleri tamamlamakta zorluk yaşar mı?',

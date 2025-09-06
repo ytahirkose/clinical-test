@@ -42,7 +42,6 @@ const TestScreen: React.FC<Props> = ({ navigation, route }) => {
       return;
     }
 
-    // Validate that all questions have answers with correct IDs
     const missingAnswers = questions
       .filter((question) => !answers.find(a => a.questionId === question.id))
       .map((question) => ({
