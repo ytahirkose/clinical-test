@@ -169,6 +169,7 @@ fastlane/readme.md
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+package-lock.json
 
 # ---- EAS Build ----
 .easignore

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-// Expo Go için AdMob mock'u
+// AdMob mock for Expo Go
 let InterstitialAd: any = null;
 let AdEventType: any = null;
 
@@ -28,7 +28,7 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [interstitial, setInterstitial] = useState<InterstitialAd | null>(null);
 
-  // Expo Go'da reklam gösterme
+  // No ads in Expo Go
   if (!InterstitialAd) {
     return null;
   }
@@ -51,7 +51,7 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
     const unsubscribeClosed = newInterstitial.addAdEventListener(AdEventType.CLOSED, () => {
       setLoaded(false);
       onAdClosed?.();
-      // Reklam kapandıktan sonra yeni reklam yükle
+      // Load new ad after current one closes
       newInterstitial.load();
     });
 
@@ -62,7 +62,7 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
 
     setInterstitial(newInterstitial);
 
-    // İlk reklamı yükle
+    // Load first ad
     newInterstitial.load();
 
     return () => {
@@ -81,13 +81,13 @@ const InterstitialAdComponent: React.FC<InterstitialAdProps> = ({
       interstitial.show();
       return true;
     } else {
-      // Reklam yüklenmemişse yeni reklam yükle
+      // Load new ad if current one not loaded
       interstitial?.load();
       return false;
     }
   };
 
-  // Component render etmez, sadece reklam yönetimi yapar
+  // Component doesn't render, only manages ads
   return null;
 };
 
